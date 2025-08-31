@@ -117,15 +117,15 @@ with colL:
 # ===== Puntajes =====
 with colC:
     st.subheader("Puntajes PAES (100–1000)")
-    nem = st.number_input("NEM", min_value=100, max_value=1000, value=650)
-    ranking = st.number_input("Ranking", min_value=100, max_value=1000, value=650)
-    cl = st.number_input("Competencia Lectora", min_value=100, max_value=1000, value=650)
-    m1 = st.number_input("Matemática 1 (M1)", min_value=100, max_value=1000, value=650)
+    nem = st.number_input("NEM", min_value=100, max_value=1000, value=100)
+    ranking = st.number_input("Ranking", min_value=100, max_value=1000, value=100)
+    cl = st.number_input("Competencia Lectora", min_value=100, max_value=1000, value=100)
+    m1 = st.number_input("Matemática 1 (M1)", min_value=100, max_value=1000, value=100)
     m2 = st.number_input("Matemática 2 (M2)", min_value=0, max_value=1000, value=0)
     opcion_ch = st.radio("Prueba Electiva", ["Ciencias", "Historia"], horizontal=True)
     cs = st.number_input("Ciencias", min_value=0, max_value=1000, value=0)
     hs = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
-    corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=700)
+    corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=500)
 
 # ===== Ponderaciones =====
 with colR:
