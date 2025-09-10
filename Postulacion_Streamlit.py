@@ -1,3 +1,7 @@
+# Postulacion_Streamlit.py
+import streamlit as st
+import pandas as pd
+
 # ===== Control del popup =====
 if "show_welcome" not in st.session_state:
     st.session_state.show_welcome = True
