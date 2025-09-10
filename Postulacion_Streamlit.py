@@ -26,18 +26,11 @@ def clamp_0_1000(x):
 @st.cache_data
 def cargar_ponderaciones(force_update=False):
     data = [
-        # Universidad de Chile
         {"universidad": "Universidad de Chile", "carrera": "Ingeniería y Ciencias (Plan Común)", "sede": "Santiago",
          "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0, "Corte": 500},
-        {"universidad": "Universidad de Chile", "carrera": "Medicina", "sede": "Santiago",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0, "Corte": 750},
-        
-        # Universidad Católica de Chile
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Ingeniería (Plan Común)", "sede": "San Joaquin",
-         "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0, "Corte": 900},
-        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Medicina", "sede": "Casa central",
-         "NEM": 20, "Ranking": 20, "Lectora": 15, "M1": 20, "M2": 0, "Ciencias": 25, "Historia": 0, "Corte": 955},
-        # Agrega el resto de universidades/carreras con sus ponderaciones y corte
+         "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0, "Corte": 600},
+        # ... resto de universidades/carreras
     ]
     return pd.DataFrame(data)
 
@@ -58,11 +51,17 @@ colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 with colL:
     st.subheader("Universidad y Carrera")
     universidades = sorted(ponderaciones_df["universidad"].unique())
+    universidades.append("Otra")  # <-- añadimos opción "Otra"
     uni = st.selectbox("Universidad", universidades, index=None)
-    carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"]==uni, "carrera"].unique()) if uni else []
-    car = st.selectbox("Carrera", carreras if carreras else [], index=None)
-    sedes = sorted(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "sede"].unique()) if uni and car else []
-    sede = st.selectbox("Sede", sedes if sedes else [], index=None)
+
+    if uni != "Otra":
+        carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"]==uni, "carrera"].unique())
+        car = st.selectbox("Carrera", carreras if carreras else [], index=None)
+        sedes = sorted(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "sede"].unique()) if uni and car else []
+        sede = st.selectbox("Sede", sedes if sedes else [], index=None)
+    else:
+        car = st.text_input("Carrera (otra)", "")
+        sede = st.text_input("Sede (otra)", "")
 
 # ===== Puntajes =====
 with colC:
@@ -77,18 +76,16 @@ with colC:
     hs = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
 
     # Puntaje de corte por carrera
-    if uni and car:
+    if uni != "Otra" and car:
         corte_default = int(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "Corte"].values[0])
     else:
-        corte_default = 500
+        corte_default = 500  # valor por defecto para "Otra"
     corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default)
 
 # ===== Ponderaciones =====
 with colR:
     st.subheader("Ponderaciones (%)")
-    
-    # Valores por defecto según universidad y carrera seleccionadas
-    if uni and car:
+    if uni != "Otra" and car:
         fila = ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car)]
         p_nem_default = int(fila["NEM"].values[0])
         p_rank_default = int(fila["Ranking"].values[0])
@@ -98,6 +95,7 @@ with colR:
         p_cie_default = int(fila["Ciencias"].values[0])
         p_his_default = int(fila["Historia"].values[0])
     else:
+        # valores para "Otra"
         p_nem_default = p_rank_default = p_lec_default = p_m1_default = p_m2_default = p_cie_default = p_his_default = 0
 
     p_nem = st.number_input("Ponderación NEM", min_value=0, max_value=100, value=p_nem_default)
