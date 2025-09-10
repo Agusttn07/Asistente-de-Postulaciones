@@ -1,3 +1,7 @@
+# Postulacion_Streamlit.py
+import streamlit as st
+import pandas as pd
+
 # ===== Popup de bienvenida =====
 if st.session_state.show_welcome:
     # Botón de cerrar funcional
