@@ -24,7 +24,7 @@ def clamp_0_1000(x):
 
 # ===== Carga de Carreras =====
 @st.cache_data
-def cargar_ponderaciones():
+def cargar_ponderaciones(force_update=False):
     """
     Dataset con muchas universidades y carreras. Todas las ponderaciones iniciales en 0.
     """
@@ -91,7 +91,7 @@ def cargar_ponderaciones():
     ]
     return pd.DataFrame(data)
 
-ponderaciones_df = cargar_ponderaciones()
+ponderaciones_df = cargar_ponderaciones(force_update=True)
 
 # ===== Sidebar: datos del postulante =====
 with st.sidebar:
