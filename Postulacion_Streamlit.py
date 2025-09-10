@@ -2,6 +2,19 @@
 import streamlit as st
 import pandas as pd
 
+# ===== CSS para inputs más grandes y separación =====
+st.markdown("""
+<style>
+input, .stTextInput>div>input, .stNumberInput>div>input {
+    height: 50px;           /* Altura de los campos */
+    font-size: 18px;        /* Tamaño de la letra */
+}
+.css-1d391kg, .stNumberInput>div {
+    margin-bottom: 20px;    /* Separación vertical entre inputs */
+}
+</style>
+""", unsafe_allow_html=True)
+
 # ===== Control del popup =====
 if "show_welcome" not in st.session_state:
     st.session_state.show_welcome = True
@@ -11,19 +24,19 @@ def close_popup():
 
 # ===== Popup de bienvenida =====
 if st.session_state.show_welcome:
-    popup_container = st.container()
-    with popup_container:
-        # Crear columnas: contenido y botón X en la esquina
+    popup_container = st.empty()
+    with popup_container.container():
         col_content, col_close = st.columns([9, 1])
         with col_close:
             if st.button("✖", key="popup_close"):
                 close_popup()
+                popup_container.empty()
         with col_content:
             st.markdown(
                 """
                 <div style="
-                    background-color:#6c7b8b;  /* Fondo más elegante y oscuro */
-                    color:black;                /* Texto negro */
+                    background-color:#6c7b8b;
+                    color:black;
                     padding:30px;
                     border-radius:20px;
                     text-align:center;
@@ -84,7 +97,7 @@ with st.sidebar:
 st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
 
 # ===== Layout principal =====
-colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
+colL, colC, colR = st.columns([1.4, 1.3, 1.4], gap="xlarge")
 
 # ===== Universidad y Carrera =====
 with colL:
