@@ -11,64 +11,23 @@ def close_popup():
 
 # ===== Popup de bienvenida =====
 if st.session_state.show_welcome:
-    # Contenedor para el popup
-    popup_html = f"""
-    <style>
-    /* Fondo semi-transparente */
-    .popup-overlay {{
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background-color: rgba(0,0,0,0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-    }}
-
-    /* Ventana del popup */
-    .popup-content {{
-        position: relative;
-        background-color: #e6f0fa;
-        color: black;
-        padding: 40px 20px;
-        border-radius: 20px;
-        max-width: 500px;
-        width: 90%;
-        text-align: center;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    }}
-
-    /* Botón X dentro del recuadro */
-    .popup-close {{
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        background: #1f77b4;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        font-weight: bold;
-        cursor: pointer;
-    }}
-    </style>
-
-    <div class="popup-overlay">
-        <div class="popup-content">
-            <button class="popup-close" onclick="document.getElementById('popup-btn').click()">✖</button>
-            <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
-            <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
-        </div>
-    </div>
-    """
-
-    # Renderizar HTML
-    st.markdown(popup_html, unsafe_allow_html=True)
-    # Botón invisible de Streamlit para cerrar el popup
-    if st.button("Cerrar Popup Invisible", key="popup-btn"):
-        close_popup()
+    popup_container = st.container()
+    with popup_container:
+        # Crear columnas: contenido y botón X en la esquina
+        col_content, col_close = st.columns([9, 1])
+        with col_close:
+            if st.button("✖", key="popup_close"):
+                close_popup()
+        with col_content:
+            st.markdown(
+                """
+                <div style="background-color:#e6f0fa; padding:30px; border-radius:20px; text-align:center; box-shadow:0 8px 25px rgba(0,0,0,0.3);">
+                    <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
+                    <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
 # ===== Utilidades =====
 def safe_int(x):
