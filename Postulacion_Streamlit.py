@@ -5,15 +5,25 @@ import pandas as pd
 # ===== CSS para inputs más grandes y separación =====
 st.markdown("""
 <style>
+/* Alto y tamaño de letra */
 input, .stTextInput>div>input, .stNumberInput>div>input {
-    height: 50px;           /* Altura de los campos */
-    font-size: 18px;        /* Tamaño de la letra */
+    height: 60px;
+    font-size: 20px;
+    padding: 10px;
 }
+
+/* Separación vertical */
 .css-1d391kg, .stNumberInput>div {
-    margin-bottom: 20px;    /* Separación vertical entre inputs */
+    margin-bottom: 25px;
+}
+
+/* Ancho completo de columna */
+div.stTextInput>div>input, div.stNumberInput>div>input {
+    width: 100% !important;
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 # ===== Control del popup =====
 if "show_welcome" not in st.session_state:
