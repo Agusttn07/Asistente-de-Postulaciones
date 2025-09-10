@@ -1,77 +1,45 @@
-# Postulacion_Streamlit.py
-import streamlit as st
-import pandas as pd
-
-# ===== Control del popup =====
-if "show_welcome" not in st.session_state:
-    st.session_state.show_welcome = True
-
-def close_popup():
-    st.session_state.show_welcome = False
-
 # ===== Popup de bienvenida =====
 if st.session_state.show_welcome:
-    # Contenedor para el popup
-    popup_container = st.container()
-    with popup_container:
-        # Botón X funcional
-        col1, col2 = st.columns([0.95, 0.05])
-        with col2:
-            if st.button("✖"):
-                close_popup()
-        
-        st.markdown(
-            """
-            <style>
-            /* Fondo semi-transparente */
-            .popup-overlay {
-                position: fixed;
-                top: 0; left: 0;
-                width: 100%; height: 100%;
-                background-color: rgba(0,0,0,0.5);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 9999;
-            }
+    # Botón de cerrar funcional
+    if st.button("Cerrar ✖"):
+        st.session_state.show_welcome = False
 
-            /* Ventana del popup */
-            .popup-content {
-                position: relative;
-                background-color: #e6f0fa;
-                color: black;
-                padding: 40px 20px;
-                border-radius: 20px;
-                max-width: 500px;
-                width: 90%;
-                text-align: center;
-                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            }
-
-            /* Botón X dentro del recuadro (solo visual) */
-            .popup-close {
-                position: absolute;
-                top: 10px;
-                right: 15px;
-                background: #1f77b4;
-                color: white;
-                border: none;
-                border-radius: 50%;
-                width: 30px;
-                height: 30px;
-                font-weight: bold;
-                cursor: pointer;
-            }
-            </style>
-            <div class="popup-overlay">
-                <div class="popup-content">
-                    <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
-                    <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
-                </div>
+    # Popup visual
+    st.markdown(
+        """
+        <style>
+        .popup-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .popup-content {
+            position: relative;
+            background-color: #e6f0fa;
+            color: black;
+            padding: 40px 20px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        </style>
+        <div class="popup-overlay">
+            <div class="popup-content">
+                <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
+                <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
             </div>
-            """,
-            unsafe_allow_html=True
-        )
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
 
 # ===== Utilidades =====
 def safe_int(x):
