@@ -97,7 +97,7 @@ with st.sidebar:
 st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
 
 # ===== Layout principal =====
-colL, colC, colR = st.columns([1.4, 1.3, 1.4], gap="large")
+colL, colC, colR = st.columns([1.5, 1.2, 1.5], gap="large")
 
 # ===== Universidad y Carrera =====
 with colL:
