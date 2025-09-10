@@ -2,13 +2,6 @@
 import streamlit as st
 import pandas as pd
 
-# ===== Control del popup =====
-if "show_welcome" not in st.session_state:
-    st.session_state.show_welcome = True
-
-def close_popup():
-    st.session_state.show_welcome = False
-
 # ===== Popup de bienvenida =====
 if st.session_state.show_welcome:
     popup_container = st.container()
@@ -21,7 +14,14 @@ if st.session_state.show_welcome:
         with col_content:
             st.markdown(
                 """
-                <div style="background-color:#e6f0fa; padding:30px; border-radius:20px; text-align:center; box-shadow:0 8px 25px rgba(0,0,0,0.3);">
+                <div style="
+                    background-color:#b0c4de;  /* Fondo más oscuro */
+                    color:black;                 /* Texto negro */
+                    padding:30px;
+                    border-radius:20px;
+                    text-align:center;
+                    box-shadow:0 8px 25px rgba(0,0,0,0.3);
+                ">
                     <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
                     <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
                 </div>
