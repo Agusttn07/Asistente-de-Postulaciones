@@ -4,8 +4,32 @@ import pandas as pd
 
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
 
-# ===== Mensaje de Bienvenida =====
-st.info("🎓 Bienvenido al Asistente de Postulaciones! En esta página podrás simular tus puntajes en la universidad y carrera que desees.")
+# ===== Mensaje emergente de Bienvenida =====
+mensaje_bienvenida = """
+<div id="popup" style="
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9fafb;
+    border: 2px solid #0073e6;
+    border-radius: 15px;
+    padding: 40px;
+    z-index: 9999;
+    width: 60%;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+">
+    <div style="text-align: right;">
+        <button onclick="document.getElementById('popup').style.display='none'" 
+            style="border:none; background:none; font-size:20px; cursor:pointer;">✖</button>
+    </div>
+    <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
+    <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
+</div>
+"""
+st.markdown(mensaje_bienvenida, unsafe_allow_html=True)
 
 # ===== Utilidades =====
 def safe_int(x):
@@ -36,16 +60,12 @@ def cargar_ponderaciones(force_update=False):
         #Universidad Catolica
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Ingeniería (Plan Común)", "sede": "San Joaquín",
          "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0, "Corte": 900},
-
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Medicina", "sede": "Casa Central",
          "NEM": 20, "Ranking": 20, "Lectora": 15, "M1": 20, "M2": 0, "Ciencias": 25, "Historia": 0, "Corte": 955},
-
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Derecho", "sede": "Casa Central",
          "NEM": 20, "Ranking": 20, "Lectora": 25, "M1": 10, "M2": 0, "Ciencias": 0, "Historia": 25, "Corte": 870},
-
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Enfermería", "sede": "San Joaquín",
          "NEM": 20, "Ranking": 25, "Lectora": 10, "M1": 20, "M2": 0, "Ciencias": 25, "Historia": 0, "Corte": 841},
-
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Arquitectura", "sede": "Lo Contador",
          "NEM": 20, "Ranking": 20, "Lectora": 15, "M1": 35, "M2": 0, "Ciencias": 10, "Historia": 10, "Corte": 872},
     ]
@@ -68,7 +88,7 @@ colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 with colL:
     st.subheader("Universidad y Carrera")
     universidades = sorted(ponderaciones_df["universidad"].unique())
-    universidades.append("Otra")  # <-- añadimos opción "Otra"
+    universidades.append("Otra")
     uni = st.selectbox("Universidad", universidades, index=None)
 
     if uni != "Otra":
@@ -96,7 +116,7 @@ with colC:
     if uni != "Otra" and car:
         corte_default = int(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "Corte"].values[0])
     else:
-        corte_default = 500  # valor por defecto para "Otra"
+        corte_default = 500
     corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default)
 
 # ===== Ponderaciones =====
@@ -112,7 +132,6 @@ with colR:
         p_cie_default = int(fila["Ciencias"].values[0])
         p_his_default = int(fila["Historia"].values[0])
     else:
-        # valores para "Otra"
         p_nem_default = p_rank_default = p_lec_default = p_m1_default = p_m2_default = p_cie_default = p_his_default = 0
 
     p_nem = st.number_input("Ponderación NEM", min_value=0, max_value=100, value=p_nem_default)
