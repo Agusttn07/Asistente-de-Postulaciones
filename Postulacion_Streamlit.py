@@ -2,10 +2,14 @@
 import streamlit as st
 import pandas as pd
 
-# ===== Popup de bienvenida centrado =====
+# ===== Control del popup =====
 if "show_welcome" not in st.session_state:
     st.session_state.show_welcome = True
 
+def close_popup():
+    st.session_state.show_welcome = False
+
+# ===== Popup de bienvenida =====
 if st.session_state.show_welcome:
     st.markdown(
         """
@@ -50,26 +54,20 @@ if st.session_state.show_welcome:
             cursor: pointer;
         }
         </style>
-
         <div class="popup-overlay">
             <div class="popup-content">
-                <button class="popup-close" onclick="window.parent.postMessage({func:'closePopup'}, '*')">✖</button>
+                <form action="">
+                    <input type="submit" value="✖" class="popup-close">
+                </form>
                 <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
                 <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
             </div>
         </div>
-        <script>
-        window.addEventListener('message', (event) => {
-            if (event.data.func === 'closePopup') {
-                const popup = document.querySelector('.popup-overlay');
-                if (popup) popup.style.display = 'none';
-            }
-        });
-        </script>
         """,
         unsafe_allow_html=True
     )
-
+    if st.button("Cerrar popup"):
+        close_popup()
 # ===== Utilidades =====
 def safe_int(x):
     try:
