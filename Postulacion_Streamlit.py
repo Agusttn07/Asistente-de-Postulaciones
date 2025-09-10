@@ -11,51 +11,55 @@ if "show_welcome" not in st.session_state:
 if st.session_state.show_welcome:
     st.markdown("""
         <style>
+        /* Popup principal */
         .welcome-popup {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #f0f4f8;
+            background-color: #e6f0fa;
             border: 2px solid #1f77b4;
             border-radius: 20px;
-            padding: 40px;
+            padding: 40px 20px;
             z-index: 9999;
-            width: 60%;
-            max-width: 600px;
+            width: 70%;
+            max-width: 500px;
             text-align: center;
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            color: #000000;
+            font-family: Arial, sans-serif;
         }
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            background-color: #1f77b4;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+
         h2 {
             color: #1f77b4;
+            font-size: 24px;
+            margin-bottom: 15px;
         }
+
         p {
-            font-size: 18px;
-            color: #333333;
+            font-size: 16px;
+            color: #000000;
+            margin: 0 10px;
+        }
+
+        /* Responsivo para celular */
+        @media only screen and (max-width: 600px) {
+            .welcome-popup {
+                width: 90%;
+                padding: 30px 15px;
+            }
+            h2 { font-size: 20px; }
+            p { font-size: 14px; }
         }
         </style>
         <div class="welcome-popup">
-            <button class="close-button" onclick="document.querySelector('.welcome-popup').style.display='none'">×</button>
             <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
             <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
         </div>
     """, unsafe_allow_html=True)
 
-    # Usamos un checkbox para cerrar el popup
-    if st.checkbox("Cerrar mensaje de bienvenida"):
+    # Botón funcional en Streamlit
+    if st.button("Cerrar mensaje de bienvenida"):
         st.session_state.show_welcome = False
 
 # ===== Utilidades =====
@@ -80,8 +84,11 @@ def clamp_0_1000(x):
 @st.cache_data
 def cargar_ponderaciones(force_update=False):
     data = [
+        # Universidad de Chile
         {"universidad": "Universidad de Chile", "carrera": "Ingeniería y Ciencias (Plan Común)", "sede": "Santiago",
          "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0, "Corte": 500},
+
+        # Universidad Católica
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Ingeniería (Plan Común)", "sede": "San Joaquín",
          "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0, "Corte": 900},
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Medicina", "sede": "Casa Central",
@@ -112,7 +119,7 @@ colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 with colL:
     st.subheader("Universidad y Carrera")
     universidades = sorted(ponderaciones_df["universidad"].unique())
-    universidades.append("Otra")
+    universidades.append("Otra")  # <-- opción "Otra"
     uni = st.selectbox("Universidad", universidades, index=None)
 
     if uni != "Otra":
@@ -136,10 +143,11 @@ with colC:
     cs = st.number_input("Ciencias", min_value=0, max_value=1000, value=0)
     hs = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
 
+    # Puntaje de corte por carrera
     if uni != "Otra" and car:
         corte_default = int(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "Corte"].values[0])
     else:
-        corte_default = 500
+        corte_default = 500  # valor por defecto para "Otra"
     corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default)
 
 # ===== Ponderaciones =====
@@ -155,6 +163,7 @@ with colR:
         p_cie_default = int(fila["Ciencias"].values[0])
         p_his_default = int(fila["Historia"].values[0])
     else:
+        # valores para "Otra"
         p_nem_default = p_rank_default = p_lec_default = p_m1_default = p_m2_default = p_cie_default = p_his_default = 0
 
     p_nem = st.number_input("Ponderación NEM", min_value=0, max_value=100, value=p_nem_default)
