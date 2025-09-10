@@ -29,7 +29,7 @@ if st.session_state.show_welcome:
                     text-align:center;
                     box-shadow:0 8px 25px rgba(0,0,0,0.5);
                 ">
-                    <h2>🎓 Bienvenido a asistentepaes.cl!</h2>
+                    <h2>Bienvenido a asistentepaes.cl!🎓</h2>
                     <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
                 </div>
                 """,
