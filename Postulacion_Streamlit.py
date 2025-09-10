@@ -99,7 +99,7 @@ with st.sidebar:
     nombre = st.text_input("Nombre del alumno", "")
     curso = st.text_input("Curso", "")
 
-st.title("Asistente 🎓 \n Admisión 2026")
+st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
 
 # ===== Layout principal =====
 colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
