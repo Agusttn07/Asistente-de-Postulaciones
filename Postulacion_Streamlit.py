@@ -4,73 +4,37 @@ import pandas as pd
 
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
 
-# ===== Mensaje emergente de Bienvenida con Session State =====
+# ===== Popup de bienvenida =====
 if "show_welcome" not in st.session_state:
     st.session_state.show_welcome = True
 
 if st.session_state.show_welcome:
-    st.markdown("""
-        <style>
-        /* Popup principal */
-        .welcome-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #e6f0fa;
-            border: 2px solid #1f77b4;
-            border-radius: 20px;
-            padding: 40px 20px;
-            z-index: 9999;
-            width: 70%;
-            max-width: 500px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            color: #000000;
-            font-family: Arial, sans-serif;
-        }
-        h2 {
-            color: #1f77b4;
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-        p {
-            font-size: 16px;
-            color: #000000;
-            margin: 0 10px;
-        }
-        /* Botón X */
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #1f77b4;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-        /* Responsivo para celular */
-        @media only screen and (max-width: 600px) {
-            .welcome-popup {
-                width: 90%;
-                padding: 30px 15px;
-            }
-            h2 { font-size: 20px; }
-            p { font-size: 14px; }
-        }
-        </style>
-        <div class="welcome-popup">
-            <button class="close-btn" onclick="document.getElementById('popup-close').click()">×</button>
-            <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
-            <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
-        </div>
-    """, unsafe_allow_html=True)
-
-    # Botón invisible de Streamlit para cerrar popup
-    if st.button("popup-close", key="popup-close"):
-        st.session_state.show_welcome = False
+    popup = st.container()
+    with popup:
+        # Contenedor del popup
+        st.markdown(
+            """
+            <div style="
+                position: relative;
+                padding: 40px 20px;
+                border-radius: 20px;
+                border: 2px solid #1f77b4;
+                background-color: #e6f0fa;
+                color: black;
+                text-align: center;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            ">
+                <h2 style="color:#1f77b4;">🎓 Bienvenido al Asistente de Postulaciones!</h2>
+                <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        # Botón real de cierre en la esquina superior derecha
+        st.button("✖", key="close_popup", help="Cerrar", on_click=lambda: st.session_state.update({"show_welcome": False}))
 
 # ===== Utilidades =====
 def safe_int(x):
