@@ -2,62 +2,7 @@
 import streamlit as st
 import pandas as pd
 
-# ===== CSS para inputs más grandes y separación =====
-st.markdown("""
-<style>
-/* Alto y tamaño de letra */
-input, .stTextInput>div>input, .stNumberInput>div>input {
-    height: 60px;
-    font-size: 20px;
-    padding: 10px;
-}
-
-/* Separación vertical */
-.css-1d391kg, .stNumberInput>div {
-    margin-bottom: 25px;
-}
-
-/* Ancho completo de columna */
-div.stTextInput>div>input, div.stNumberInput>div>input {
-    width: 100% !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
-
-# ===== Control del popup =====
-if "show_welcome" not in st.session_state:
-    st.session_state.show_welcome = True
-
-def close_popup():
-    st.session_state.show_welcome = False
-
-# ===== Popup de bienvenida =====
-if st.session_state.show_welcome:
-    popup_container = st.empty()
-    with popup_container.container():
-        col_content, col_close = st.columns([9, 1])
-        with col_close:
-            if st.button("✖", key="popup_close"):
-                close_popup()
-                popup_container.empty()
-        with col_content:
-            st.markdown(
-                """
-                <div style="
-                    background-color:#6c7b8b;
-                    color:black;
-                    padding:30px;
-                    border-radius:20px;
-                    text-align:center;
-                    box-shadow:0 8px 25px rgba(0,0,0,0.5);
-                ">
-                    <h2>Bienvenido a asistentepaes.cl!🎓</h2>
-                    <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
 
 # ===== Utilidades =====
 def safe_int(x):
@@ -93,7 +38,6 @@ def cargar_ponderaciones(force_update=False):
          "NEM": 20, "Ranking": 25, "Lectora": 10, "M1": 20, "M2": 0, "Ciencias": 25, "Historia": 0, "Corte": 841},
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Arquitectura", "sede": "Lo Contador",
          "NEM": 20, "Ranking": 20, "Lectora": 15, "M1": 35, "M2": 0, "Ciencias": 10, "Historia": 10, "Corte": 872},
-    ]
     return pd.DataFrame(data)
 
 ponderaciones_df = cargar_ponderaciones(force_update=True)
@@ -107,13 +51,13 @@ with st.sidebar:
 st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
 
 # ===== Layout principal =====
-colL, colC, colR = st.columns([1.1, 1.1, 1.1], gap="large")
+colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 
 # ===== Universidad y Carrera =====
 with colL:
     st.subheader("Universidad y Carrera")
     universidades = sorted(ponderaciones_df["universidad"].unique())
-    universidades.append("Otra")
+    universidades.append("Otra")  # <-- añadimos opción "Otra"
     uni = st.selectbox("Universidad", universidades, index=None)
 
     if uni != "Otra":
@@ -137,10 +81,11 @@ with colC:
     cs = st.number_input("Ciencias", min_value=0, max_value=1000, value=0)
     hs = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
 
+    # Puntaje de corte por carrera
     if uni != "Otra" and car:
         corte_default = int(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "Corte"].values[0])
     else:
-        corte_default = 500
+        corte_default = 500  # valor por defecto para "Otra"
     corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default)
 
 # ===== Ponderaciones =====
@@ -156,6 +101,7 @@ with colR:
         p_cie_default = int(fila["Ciencias"].values[0])
         p_his_default = int(fila["Historia"].values[0])
     else:
+        # valores para "Otra"
         p_nem_default = p_rank_default = p_lec_default = p_m1_default = p_m2_default = p_cie_default = p_his_default = 0
 
     p_nem = st.number_input("Ponderación NEM", min_value=0, max_value=100, value=p_nem_default)
@@ -189,3 +135,5 @@ if st.button("PONDERAR"):
         st.info(f"Estás sobre el corte por {ptotal-corte:.2f} puntos ({progreso:.1f}% del corte).")
     else:
         st.warning(f"No alcanzas el corte ({corte}). Progreso: {progreso:.1f}%.")
+
+
