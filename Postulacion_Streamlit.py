@@ -2,19 +2,12 @@
 import streamlit as st
 import pandas as pd
 
-# ===== Control del popup =====
-if "show_welcome" not in st.session_state:
-    st.session_state.show_welcome = True
-
-def close_popup():
-    st.session_state.show_welcome = False
-
 # ===== Popup de bienvenida =====
 if st.session_state.show_welcome:
+    # Botón X invisible (Streamlit) y estilo
     st.markdown(
         """
         <style>
-        /* Fondo semi-transparente */
         .popup-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -25,8 +18,6 @@ if st.session_state.show_welcome:
             align-items: center;
             z-index: 9999;
         }
-
-        /* Ventana del popup */
         .popup-content {
             position: relative;
             background-color: #e6f0fa;
@@ -38,8 +29,6 @@ if st.session_state.show_welcome:
             text-align: center;
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         }
-
-        /* Botón X */
         .popup-close {
             position: absolute;
             top: 10px;
@@ -56,9 +45,6 @@ if st.session_state.show_welcome:
         </style>
         <div class="popup-overlay">
             <div class="popup-content">
-                <form action="">
-                    <input type="submit" value="✖" class="popup-close">
-                </form>
                 <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
                 <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
             </div>
@@ -66,8 +52,11 @@ if st.session_state.show_welcome:
         """,
         unsafe_allow_html=True
     )
-    if st.button("Cerrar popup"):
-        close_popup()
+    
+    # Botón X funcional de Streamlit, encima del popup con posición fija
+    if st.button("✖"):
+        st.session_state.show_welcome = False
+
 # ===== Utilidades =====
 def safe_int(x):
     try:
