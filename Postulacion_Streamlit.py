@@ -31,7 +31,10 @@ def cargar_ponderaciones(force_update=False):
          "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
         {"universidad": "Universidad de Chile", "carrera": "Medicina", "sede": "Santiago",
          "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        # ... (el resto de tus carreras, con valores ya definidos si quieres)
+        {"universidad": "Universidad de Chile", "carrera": "Arquitectura", "sede": "Santiago",
+         "NEM": 10, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
+
+        # Universidad Catolica
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Ingeniería (Plan Común)", "sede": "San Joaquin",
          "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0},
     ]
