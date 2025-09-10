@@ -32,7 +32,7 @@ def cargar_ponderaciones(force_update=False):
 
         
         #Universidad Catolica
-        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Ingeniería (Plan Común)", "sede": "San Joaquin",
+        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Ingeniería (Plan Común)", "sede": "San Joaquín",
          "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0, "Corte": 900},
         
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Medicina", "sede": "Casa Central",
@@ -40,6 +40,12 @@ def cargar_ponderaciones(force_update=False):
 
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Derecho", "sede": "Casa Central",
          "NEM": 20, "Ranking": 20, "Lectora": 25, "M1": 10, "M2": 0, "Ciencias": 0, "Historia": 25, "Corte": 870},
+
+        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Enfermería", "sede": "San Joaquín",
+         "NEM": 20, "Ranking": 25, "Lectora": 10, "M1": 20, "M2": 0, "Ciencias": 25, "Historia": 0, "Corte": 841},
+
+        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Arquitectura", "sede": "Lo Contador",
+         "NEM": 20, "Ranking": 20, "Lectora": 15, "M1": 35, "M2": 0, "Ciencias": 10, "Historia": 10, "Corte": 872},
         
     ]
     return pd.DataFrame(data)
