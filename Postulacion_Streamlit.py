@@ -25,69 +25,15 @@ def clamp_0_1000(x):
 # ===== Carga de Carreras =====
 @st.cache_data
 def cargar_ponderaciones(force_update=False):
-    """
-    Dataset con muchas universidades y carreras. Todas las ponderaciones iniciales en 0.
-    """
     data = [
         # Universidad de Chile
         {"universidad": "Universidad de Chile", "carrera": "Ingeniería y Ciencias (Plan Común)", "sede": "Santiago",
          "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
         {"universidad": "Universidad de Chile", "carrera": "Medicina", "sede": "Santiago",
          "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Universidad de Chile", "carrera": "Derecho", "sede": "Santiago",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Universidad de Chile", "carrera": "Arquitectura", "sede": "Santiago",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-
-        # Universidad Católica de Chile
+        # ... (el resto de tus carreras, con valores ya definidos si quieres)
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Ingeniería (Plan Común)", "sede": "San Joaquin",
          "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0},
-        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Medicina", "sede": "Santiago",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Arquitectura", "sede": "Santiago",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Derecho", "sede": "Santiago",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-
-        # Universidad de Santiago de Chile
-        {"universidad": "Universidad de Santiago de Chile", "carrera": "Arquitectura", "sede": "Concepción",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Universidad de Santiago de Chile", "carrera": "Ingeniería Civil", "sede": "Santiago",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Universidad de Santiago de Chile", "carrera": "Enfermería", "sede": "Santiago",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-
-        # Universidad de Concepción
-        {"universidad": "Universidad de Concepción", "carrera": "Medicina", "sede": "Concepción",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Universidad de Concepción", "carrera": "Arquitectura", "sede": "Concepción",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Universidad de Concepción", "carrera": "Derecho", "sede": "Concepción",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-
-        # Universidad Austral de Chile
-        {"universidad": "Universidad Austral de Chile", "carrera": "Medicina Veterinaria", "sede": "Valdivia",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Universidad Austral de Chile", "carrera": "Ingeniería Forestal", "sede": "Valdivia",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-
-        # Universidad de Valparaíso
-        {"universidad": "Universidad de Valparaíso", "carrera": "Pedagogía en Matemática", "sede": "Valparaíso",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Universidad de Valparaíso", "carrera": "Derecho", "sede": "Valparaíso",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-
-        # Universidad Técnica Federico Santa María
-        {"universidad": "Universidad Técnica Federico Santa María", "carrera": "Ingeniería Civil", "sede": "Valparaíso",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Universidad Técnica Federico Santa María", "carrera": "Ingeniería en Computación", "sede": "Valparaíso",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-
-        # Universidad Católica del Norte
-        {"universidad": "Universidad Católica del Norte", "carrera": "Ingeniería Civil", "sede": "Antofagasta",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Universidad Católica del Norte", "carrera": "Arquitectura", "sede": "Antofagasta",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
     ]
     return pd.DataFrame(data)
 
@@ -130,13 +76,27 @@ with colC:
 # ===== Ponderaciones =====
 with colR:
     st.subheader("Ponderaciones (%)")
-    p_nem = st.number_input("Ponderación NEM", min_value=0, max_value=100, value=0)
-    p_rank = st.number_input("Ponderación Ranking", min_value=0, max_value=100, value=0)
-    p_lec = st.number_input("Ponderación Comp. Lectora", min_value=0, max_value=100, value=0)
-    p_m1  = st.number_input("Ponderación Matemática 1 (M1)", min_value=0, max_value=100, value=0)
-    p_m2  = st.number_input("Ponderación Matemática 2 (M2)", min_value=0, max_value=100, value=0)
-    p_cie = st.number_input("Ponderación Ciencias", min_value=0, max_value=100, value=0)
-    p_his = st.number_input("Ponderación Historia", min_value=0, max_value=100, value=0)
+    
+    # Valores por defecto según universidad y carrera seleccionadas
+    if uni and car:
+        fila = ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car)]
+        p_nem_default = int(fila["NEM"].values[0])
+        p_rank_default = int(fila["Ranking"].values[0])
+        p_lec_default = int(fila["Lectora"].values[0])
+        p_m1_default = int(fila["M1"].values[0])
+        p_m2_default = int(fila["M2"].values[0])
+        p_cie_default = int(fila["Ciencias"].values[0])
+        p_his_default = int(fila["Historia"].values[0])
+    else:
+        p_nem_default = p_rank_default = p_lec_default = p_m1_default = p_m2_default = p_cie_default = p_his_default = 0
+
+    p_nem = st.number_input("Ponderación NEM", min_value=0, max_value=100, value=p_nem_default)
+    p_rank = st.number_input("Ponderación Ranking", min_value=0, max_value=100, value=p_rank_default)
+    p_lec = st.number_input("Ponderación Comp. Lectora", min_value=0, max_value=100, value=p_lec_default)
+    p_m1  = st.number_input("Ponderación Matemática 1 (M1)", min_value=0, max_value=100, value=p_m1_default)
+    p_m2  = st.number_input("Ponderación Matemática 2 (M2)", min_value=0, max_value=100, value=p_m2_default)
+    p_cie = st.number_input("Ponderación Ciencias", min_value=0, max_value=100, value=p_cie_default)
+    p_his = st.number_input("Ponderación Historia", min_value=0, max_value=100, value=p_his_default)
 
     suma_p = p_nem + p_rank + p_lec + p_m1 + p_m2 + p_cie + p_his
     if suma_p != 100:
