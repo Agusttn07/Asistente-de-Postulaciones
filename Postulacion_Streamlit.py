@@ -26,11 +26,21 @@ def clamp_0_1000(x):
 @st.cache_data
 def cargar_ponderaciones(force_update=False):
     data = [
+        #Universidad de Chile
         {"universidad": "Universidad de Chile", "carrera": "Ingeniería y Ciencias (Plan Común)", "sede": "Santiago",
          "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0, "Corte": 500},
+
+        
+        #Universidad Catolica
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Ingeniería (Plan Común)", "sede": "San Joaquin",
-         "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0, "Corte": 600},
-        # ... resto de universidades/carreras
+         "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0, "Corte": 900},
+        
+        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Medicina", "sede": "Casa Central",
+         "NEM": 20, "Ranking": 20, "Lectora": 15, "M1": 20, "M2": 0, "Ciencias": 25, "Historia": 0, "Corte": 955},
+
+        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Derecho", "sede": "Casa Central",
+         "NEM": 20, "Ranking": 20, "Lectora": 25, "M1": 10, "M2": 0, "Ciencias": 0, "Historia": 25, "Corte": 870},
+        
     ]
     return pd.DataFrame(data)
 
