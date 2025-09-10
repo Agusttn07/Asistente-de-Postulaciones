@@ -14,20 +14,12 @@ if st.session_state.show_welcome:
     st.markdown(
         """
         <style>
-        /* Fondo semitransparente que cubre toda la pantalla */
-        .popup-overlay {
+        /* Popup flotante arriba de la página */
+        .popup-container {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-        /* Popup centrado */
-        .popup-content {
-            position: relative;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             background-color: #6c7b8b;
             color: black;
             padding: 30px;
@@ -36,8 +28,9 @@ if st.session_state.show_welcome:
             width: 90%;
             text-align: center;
             box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            z-index: 9999;
         }
-        /* Botón X */
+
         .popup-close {
             position: absolute;
             top: 10px;
@@ -53,14 +46,12 @@ if st.session_state.show_welcome:
         }
         </style>
 
-        <div class="popup-overlay">
-            <div class="popup-content">
-                <form action="">
-                    <input type="submit" value="✖" class="popup-close">
-                </form>
-                <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
-                <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
-            </div>
+        <div class="popup-container">
+            <form action="">
+                <input type="submit" value="✖" class="popup-close">
+            </form>
+            <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
+            <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
         </div>
         """,
         unsafe_allow_html=True
