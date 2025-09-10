@@ -28,15 +28,15 @@ def cargar_ponderaciones(force_update=False):
     data = [
         # Universidad de Chile
         {"universidad": "Universidad de Chile", "carrera": "Ingeniería y Ciencias (Plan Común)", "sede": "Santiago",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
+         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0, "Corte": 500},
         {"universidad": "Universidad de Chile", "carrera": "Medicina", "sede": "Santiago",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-        {"universidad": "Universidad de Chile", "carrera": "Arquitectura", "sede": "Santiago",
-         "NEM": 10, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
-
-        # Universidad Catolica
+         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0, "Corte": 750},
+        # Universidad Católica de Chile
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Ingeniería (Plan Común)", "sede": "San Joaquin",
-         "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0},
+         "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0, "Corte": 600},
+        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Medicina", "sede": "Santiago",
+         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0, "Corte": 780},
+        # Agrega el resto de universidades/carreras con sus ponderaciones y corte
     ]
     return pd.DataFrame(data)
 
@@ -74,7 +74,13 @@ with colC:
     opcion_ch = st.radio("Prueba Electiva", ["Ciencias", "Historia"], horizontal=True)
     cs = st.number_input("Ciencias", min_value=0, max_value=1000, value=0)
     hs = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
-    corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=500)
+
+    # Puntaje de corte por carrera
+    if uni and car:
+        corte_default = int(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "Corte"].values[0])
+    else:
+        corte_default = 500
+    corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default)
 
 # ===== Ponderaciones =====
 with colR:
