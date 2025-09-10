@@ -39,7 +39,8 @@ def cargar_ponderaciones(force_update=False):
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Arquitectura", "sede": "Lo Contador",
          "NEM": 20, "Ranking": 20, "Lectora": 15, "M1": 35, "M2": 0, "Ciencias": 10, "Historia": 10, "Corte": 872},
     return pd.DataFrame(data)
-
+    ]
+        
 ponderaciones_df = cargar_ponderaciones(force_update=True)
 
 # ===== Sidebar: datos del postulante =====
