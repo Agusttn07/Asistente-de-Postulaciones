@@ -41,7 +41,7 @@ def cargar_ponderaciones():
 
         # Universidad Católica de Chile
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Ingeniería (Plan Común)", "sede": "San Joaquin",
-         "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0},
+         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Medicina", "sede": "Santiago",
          "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0},
         {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Arquitectura", "sede": "Santiago",
