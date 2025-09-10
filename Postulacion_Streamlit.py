@@ -11,53 +11,30 @@ def close_popup():
 
 # ===== Popup de bienvenida =====
 if st.session_state.show_welcome:
-    st.markdown(
-        """
-        <style>
-        /* Popup flotante arriba de la página */
-        .popup-container {
-            position: fixed;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #6c7b8b;
-            color: black;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-            z-index: 9999;
-        }
-
-        .popup-close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            background: #1f77b4;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        </style>
-
-        <div class="popup-container">
-            <form action="">
-                <input type="submit" value="✖" class="popup-close">
-            </form>
-            <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
-            <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-    if st.button("Cerrar popup"):
-        close_popup()
+    popup_container = st.container()
+    with popup_container:
+        # Crear columnas: contenido y botón X en la esquina
+        col_content, col_close = st.columns([9, 1])
+        with col_close:
+            if st.button("✖", key="popup_close"):
+                close_popup()
+        with col_content:
+            st.markdown(
+                """
+                <div style="
+                    background-color:#6c7b8b;  /* Fondo más elegante y oscuro */
+                    color:black;                /* Texto negro */
+                    padding:30px;
+                    border-radius:20px;
+                    text-align:center;
+                    box-shadow:0 8px 25px rgba(0,0,0,0.5);
+                ">
+                    <h2>🎓 Bienvenido al Asistente de Postulaciones!</h2>
+                    <p>En esta página podrás simular tus puntajes en la universidad y carrera que desees.</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
 # ===== Utilidades =====
 def safe_int(x):
