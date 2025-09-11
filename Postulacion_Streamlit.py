@@ -5,6 +5,19 @@ from typing import Optional
 
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
 
+# ===== Recordatorio atractivo =====
+st.markdown(
+    """
+    <div style="background-color:#e8f1ff; padding:12px; border-radius:10px; border:1px solid #cce0ff; margin-bottom:15px;">
+        📌 <b>¿No conoces las ponderaciones de alguna universidad?</b><br>
+        👉 <a href="https://demre.cl/publicaciones/2025/2025-24-09-25-oferta-carreras-vacantes-ponderaciones-p2025" target="_blank" style="color:#1a73e8; text-decoration:none; font-weight:bold;">
+        Haz clic aquí para ver la oferta oficial en el DEMRE
+        </a>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 # ===== Utilidades =====
 def safe_int(x: Optional[str]) -> Optional[int]:
     try:
