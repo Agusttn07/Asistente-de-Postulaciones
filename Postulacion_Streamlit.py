@@ -5,7 +5,7 @@ from typing import Optional
 
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
 
-st.title("Asistente de postulaciones 🎓)
+st.title("Asistente de postulaciones 🎓")
 
 st.markdown(
     """
