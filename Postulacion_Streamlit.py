@@ -86,7 +86,7 @@ def cargar_ponderaciones(force_update=False):
         {"universidad":"Universidad de Chile","carrera":"Tecnología Médica","sede":"Casa Central","NEM":10,"Ranking":20,"Lectora":15,"M1":20,"M2":0,"Ciencias":35,"Historia":0,"Corte":796.2},
         {"universidad":"Universidad de Chile","carrera":"Terapia Ocupacional","sede":"Casa Central","NEM":10,"Ranking":20,"Lectora":20,"M1":20,"M2":0,"Ciencias":30,"Historia":0,"Corte":689.2},
         {"universidad":"Universidad de Chile","carrera":"Odontología","sede":"Casa Central","NEM":10,"Ranking":20,"Lectora":15,"M1":20,"M2":0,"Ciencias":35,"Historia":0,"Corte":782.8},
-        {"universidad":"Universidad de Chile","carrera":"Programa Académico de Bachillerato","sede":"Casa Central","NEM":10,"Ranking":20,"Lectora":15,"M1":20,"M2":0,"Ciencias":35,"Historia":0,"Corte":800.35}
+        {"universidad":"Universidad de Chile","carrera":"Programa Académico de Bachillerato","sede":"Casa Central","NEM":10,"Ranking":20,"Lectora":15,"M1":20,"M2":0,"Ciencias":35,"Historia":0,"Corte":800.35},
 
 
 
