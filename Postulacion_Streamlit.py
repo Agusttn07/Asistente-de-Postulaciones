@@ -110,8 +110,8 @@ def cargar_ponderaciones(force_update=False):
 
 ponderaciones_df = cargar_ponderaciones(force_update=True)
 
-import streamlit as st
 
+colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 # Diccionario con logos
 logos_universidad = {
     "Pontificia Universidad Católica de Chile": "logos_universidad/u_catolica.png",
