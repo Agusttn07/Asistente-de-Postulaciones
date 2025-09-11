@@ -32,21 +32,62 @@ def cargar_ponderaciones(force_update=False):
         
 
         #Universidad Catolica
-        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Ingeniería (Plan Común)", "sede": "San Joaquín",
-         "NEM": 20, "Ranking": 20, "Lectora": 10, "M1": 25, "M2": 10, "Ciencias": 15, "Historia": 0, "Corte": 900},
-        
-        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Medicina", "sede": "Casa Central",
-         "NEM": 20, "Ranking": 20, "Lectora": 15, "M1": 20, "M2": 0, "Ciencias": 25, "Historia": 0, "Corte": 955},
-        
-        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Derecho", "sede": "Casa Central",
-         "NEM": 20, "Ranking": 20, "Lectora": 25, "M1": 10, "M2": 0, "Ciencias": 0, "Historia": 25, "Corte": 870},
-        
-        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Enfermería", "sede": "San Joaquín",
-         "NEM": 20, "Ranking": 25, "Lectora": 10, "M1": 20, "M2": 0, "Ciencias": 25, "Historia": 0, "Corte": 841},
-        
-        {"universidad": "Pontificia Universidad Católica de Chile", "carrera": "Arquitectura", "sede": "Lo Contador",
-         "NEM": 20, "Ranking": 20, "Lectora": 15, "M1": 35, "M2": 0, "Ciencias": 10, "Historia": 10, "Corte": 872},
-    ]
+        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Actuación","sede":"Casa Central","NEM":12,"Ranking":12,"Lectora":16,"M1":10,"M2":0,"Historia":10,"Ciencias":0,"Corte":792.18}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Administración Pública","sede":"Santiago","NEM":20,"Ranking":20,"Lectora":20,"M1":30,"M2":0,"Historia":10,"Ciencias":10,"Corte":779.90}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Agronomía","sede":"San Joaquín","NEM":20,"Ranking":30,"Lectora":10,"M1":30,"M2":0,"Historia":0,"Ciencias":10,"Corte":723.20}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Antropología","sede":"Santiago","NEM":20,"Ranking":25,"Lectora":20,"M1":20,"M2":0,"Historia":15,"Ciencias":0,"Corte":780.55}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Arqueología","sede":"Santiago","NEM":20,"Ranking":25,"Lectora":20,"M1":20,"M2":0,"History":15,"Ciencias":0,"Corte":780.55}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Arquitectura","sede":"San Joaquín","NEM":20,"Ranking":20,"Lectora":15,"M1":35,"M2":0,"History":10,"Ciencias":10,"Corte":871.20}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Arte","sede":"San Joaquín","NEM":20,"Ranking":30,"Lectora":20,"M1":15,"M2":0,"History":15,"Ciencias":0,"Corte":718.45}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Astronomía","sede":"San Joaquín","NEM":20,"Ranking":20,"Lectora":10,"M1":35,"M2":0,"History":0,"Ciencias":15,"Corte":908.40}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Biología","sede":"San Joaquín","NEM":20,"Ranking":20,"Lectora":10,"M1":25,"M2":0,"History":0,"Ciencias":25,"Corte":789.65}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Biología Marina","sede":"San Joaquín","NEM":20,"Ranking":20,"Lectora":10,"M1":25,"M2":0,"History":0,"Ciencias":25,"Corte":783.35}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Bioquímica","sede":"San Joaquín","NEM":20,"Ranking":20,"Lectora":10,"M1":30,"M2":0,"History":0,"Ciencias":20,"Corte":886.90}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Ciencia Política","sede":"Santiago","NEM":20,"Ranking":25,"Lectora":20,"M1":20,"M2":0,"History":15,"Ciencias":0,"Corte":837.30}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"College Artes y Humanidades","sede":"Santiago","NEM":20,"Ranking":20,"Lectora":25,"M1":25,"M2":0,"History":10,"Ciencias":0,"Corte":742.25}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"College Ciencias Naturales y Matemáticas","sede":"Santiago","NEM":20,"Ranking":20,"Lectora":10,"M1":35,"M2":0,"History":0,"Ciencias":15,"Corte":859.65}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"College Ciencias Sociales","sede":"Santiago","NEM":20,"Ranking":20,"Lectora":25,"M1":25,"M2":0,"History":10,"Ciencias":0,"Corte":762.50}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Construcción Civil","sede":"San Joaquín","NEM":20,"Ranking":20,"Lectora":10,"M1":40,"M2":0,"History":0,"Ciencias":10,"Corte":711.10}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Derecho","sede":"Santiago","NEM":20,"Ranking":20,"Lectora":25,"M1":10,"M2":0,"History":25,"Ciencias":0,"Corte":869.35}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Dirección Audiovisual / Periodismo / Publicidad","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":811.50}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Diseño","sede":"Santiago","NEM":25,"Ranking":25,"Lectora":20,"M1":20,"M2":0,"History":10,"Ciencias":10,"Corte":798.15}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Enfermería","sede":"San Joaquín","NEM":20,"Ranking":25,"Lectora":10,"M1":20,"M2":0,"History":0,"Ciencias":25,"Corte":840.25}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Estadística","sede":"San Joaquín","NEM":20,"Ranking":10,"Lectora":10,"M1":45,"M2":5,"History":0,"Ciencias":10,"Corte":785.55}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Filosofía","sede":"San Joaquín","NEM":25,"Ranking":25,"Lectora":25,"M1":15,"M2":0,"History":10,"Ciencias":0,"Corte":673.95}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Física","sede":"San Joaquín","NEM":20,"Ranking":10,"Lectora":10,"M1":45,"M2":0,"History":0,"Ciencias":15,"Corte":884.15}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Fonoaudiología","sede":"Santiago","NEM":20,"Ranking":25,"Lectora":10,"M1":20,"M2":0,"History":0,"Ciencias":25,"Corte":697.45}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Geografía","sede":"Santiago","NEM":20,"Ranking":20,"Lectora":20,"M1":25,"M2":0,"History":15,"Ciencias":0,"Corte":658.40}
+{"universidad":"Pontificia Universidad Católica de Chile","carrera":"Historia","sede":"Santiago","NEM":20,"Ranking":20,"Lectora":15,"M1":10,"M2":0,"History":35,"Ciencias":0,"Corte":736.15}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Ingeniería (general)","sede":"San Joaquín","NEM":20,"Ranking":20,"Lectora":10,"M1":25,"M2":10,"History":0,"Ciencias":15,"Corte":899.95}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Ingeniería Comercial","sede":"Santiago","NEM":20,"Ranking":20,"Lectora":10,"M1":30,"M2":10,"History":10,"Ciencias":10,"Corte":880.40}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Ingeniería en Recursos Naturales","sede":"San Joaquín","NEM":15,"Ranking":25,"Lectora":10,"M1":25,"M2":10,"History":0,"Ciencias":15,"Corte":677.25}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Ingeniería Forestal","sede":"San Joaquín","NEM":20,"Ranking":30,"Lectora":10,"M1":30,"M2":0,"History":0,"Ciencias":10,"Corte":723.20}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Interpretación Musical","sede":"Santiago","NEM":12,"Ranking":12,"Lectora":12,"M1":14,"M2":0,"History":10,"Ciencias":10,"Corte":768.80}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Kinesiología","sede":"Santiago","NEM":20,"Ranking":25,"Lectora":10,"M1":20,"M2":0,"History":0,"Ciencias":25,"Corte":801.95}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Letras Hispánicas","sede":"Santiago","NEM":25,"Ranking":25,"Lectora":25,"M1":15,"M2":0,"History":10,"Ciencias":0,"Corte":714.55}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Letras Inglesas","sede":"Santiago","NEM":25,"Ranking":25,"Lectora":25,"M1":15,"M2":0,"History":10,"Ciencias":0,"Corte":733.75}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Licenciatura en Ingeniería en Ciencia de Datos","sede":"San Joaquín","NEM":20,"Ranking":20,"Lectora":10,"M1":30,"M2":10,"History":0,"Ciencias":10,"Corte":798.90}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Licenciatura en Ingeniería en Ciencia de la Computación","sede":"San Joaquín","NEM":20,"Ranking":20,"Lectora":10,"M1":25,"M2":10,"History":0,"Ciencias":15,"Corte":810.90}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Matemática","sede":"San Joaquín","NEM":20,"Ranking":10,"Lectora":10,"M1":45,"M2":0,"History":0,"Ciencias":15,"Corte":827.90}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Medicina","sede":"Santiago","NEM":20,"Ranking":20,"Lectora":15,"M1":20,"M2":0,"History":0,"Ciencias":25,"Corte":954.45}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Medicina Veterinaria","sede":"San Joaquín","NEM":20,"Ranking":20,"Lectora":10,"M1":20,"M2":0,"History":0,"Ciencias":25,"Corte":825.50}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Música","sede":"Santiago","NEM":25,"Ranking":25,"Lectora":25,"M1":25,"M2":0,"History":10,"Ciencias":0,"Corte":659.24}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Nutrición y Dietética","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":760.15}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Odontología","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":865.40}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Pedagogía en Educación Especial","sede":"San Joaquín","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":725.60}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Pedagogía en Educación Física y Salud","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":741.60}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Pedagogía General Básica","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":690.00}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Pedagogía en Educación Media en Ciencias Naturales y Biología","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":765.60}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Pedagogía en Educación Media en Física","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":729.90}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Pedagogía en Educación Media en Matemática","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":808.35}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Pedagogía en Educación Media en Química","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":649.70}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Pedagogía en Educación Parvularia","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":721.75}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Pedagogía en Inglés","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":760.30}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Pedagogía en Religión Católica","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":null}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Trabajo Social","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":690.40}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Terapia Ocupacional","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":746.80}
+{"universidad":"Pontificia Universidad Católica of Chile","carrera":"Teología","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":546.00}
+
     return pd.DataFrame(data)
 
 ponderaciones_df = cargar_ponderaciones(force_update=True)
