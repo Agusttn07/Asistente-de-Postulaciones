@@ -125,7 +125,6 @@ colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 # ===== Logos de universidades =====
 # Coloca tus logos en una carpeta llamada "logos_universidad" en el repo
 logos_universidad = {
-    "Universidad de Chile": "logos_universidad/u_chile.png",
     "Pontificia Universidad Católica de Chile": "logos_universidad/u_catolica.png",
     # agrega más universidades y sus archivos
 }
