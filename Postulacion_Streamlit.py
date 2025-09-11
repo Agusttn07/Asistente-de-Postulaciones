@@ -9,8 +9,8 @@ st.title("Asistente de postulaciones 🎓")
 
 st.markdown(
     """
-    <h1 style="color:#003366; margin-top: -20px;">
-        Información oficial de ponderaciones
+    <h1 style="color:#6E7DAB; margin-top: -20px;">
+        Admisión 2026
     </h1>
     """,
     unsafe_allow_html=True
