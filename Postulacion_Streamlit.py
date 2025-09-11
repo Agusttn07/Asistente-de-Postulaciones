@@ -5,7 +5,17 @@ from typing import Optional
 
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
 
-st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
+st.title("Asistente de postulaciones 🎓)
+
+st.markdown(
+    """
+    <h1 style="color:#003366; margin-top: -20px;">
+        Información oficial de ponderaciones
+    </h1>
+    """,
+    unsafe_allow_html=True
+)
+
 
 st.markdown(
     """
