@@ -6,6 +6,8 @@ from PIL import Image
 import os
 
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
+car = ""
+sede = ""
 
 # ===== Utilidades =====
 def safe_int(x):
