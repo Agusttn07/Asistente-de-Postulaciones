@@ -51,6 +51,14 @@ def clamp_0_1000(x: Optional[str]) -> Optional[float]:
         return None
 
 # ===== Carga de Carreras =====
+df = pd.read_csv("carreras.csv")
+
+# 🔹 Limpieza: quitar filas donde universidad esté vacío/nan
+df = df.dropna(subset=["universidad"])
+
+# 🔹 (opcional) por si algún "nan" quedó como string en el archivo
+df = df[df["universidad"].str.lower() != "nan"]
+
 @st.cache_data
 def cargar_ponderaciones(force_update=False):
     data = [
