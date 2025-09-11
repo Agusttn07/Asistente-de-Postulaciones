@@ -113,6 +113,8 @@ colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 
 import unicodedata
 
+import unicodedata
+
 # ===== Normalizador =====
 def normalizar(texto):
     if not isinstance(texto, str):
@@ -128,54 +130,34 @@ with colL:
 
     # Universidades disponibles
     universidades = sorted(ponderaciones_df["universidad"].unique())
-    universidades_opciones = universidades + ["Otra"]
-
-    # Selectbox universidad
-    uni_selec = st.selectbox("Universidad", universidades_opciones, index=None)
-
-    # Normalizar lo que escribe el usuario
-    uni_input = st.session_state.get("Universidad", "")
+    
+    # Diccionario: normalizado -> original
+    universidades_dict = {normalizar(u): u for u in universidades}
+    
+    # Selectbox universidad (mostramos originales)
+    uni_input = st.selectbox("Universidad", universidades)
+    
+    # Normalizamos lo que selecciona o escribe
     uni_norm = normalizar(uni_input)
+    uni = universidades_dict.get(uni_norm, uni_input)
 
-    # Reemplazar por la coincidencia si existe
-    if uni_norm:
-        posibles_unis = [u for u in universidades if normalizar(u) == uni_norm]
-        if posibles_unis:
-            uni = posibles_unis[0]
-        else:
-            uni = uni_selec if uni_selec else "Otra"
-    else:
-        uni = uni_selec if uni_selec else "Otra"
+    # Carreras según universidad elegida
+    carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
+    carreras_dict = {normalizar(c): c for c in carreras}
+    
+    car_input = st.selectbox("Carrera", carreras if carreras else [])
+    car_norm = normalizar(car_input)
+    car = carreras_dict.get(car_norm, car_input)
 
-    # Carreras asociadas a esa universidad
-    if uni != "Otra":
-        carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
-        carreras_opciones = carreras + ["Otra"]
-        car_selec = st.selectbox("Carrera", carreras_opciones, index=None)
+    # Sedes
+    sedes = sorted(
+        ponderaciones_df.loc[
+            (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car),
+            "sede"
+        ].unique()
+    )
+    sede = st.selectbox("Sede", sedes if sedes else [])
 
-        car_input = st.session_state.get("Carrera", "")
-        car_norm = normalizar(car_input)
-
-        if car_norm:
-            posibles_carreras = [c for c in carreras if normalizar(c) == car_norm]
-            if posibles_carreras:
-                car = posibles_carreras[0]
-            else:
-                car = car_selec if car_selec else "Otra"
-        else:
-            car = car_selec if car_selec else "Otra"
-
-        # Sedes
-        sedes = sorted(
-            ponderaciones_df.loc[
-                (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car),
-                "sede"
-            ].unique()
-        )
-        sede = st.selectbox("Sede", sedes if sedes else [], index=None)
-    else:
-        car = st.text_input("Carrera (otra)", "")
-        sede = st.text_input("Sede (otra)", "")
 
 # ===== Puntajes =====
 with colC:
