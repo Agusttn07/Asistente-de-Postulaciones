@@ -166,11 +166,16 @@ with colC:
     hs = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
 
     # ✅ Verificamos si existe la fila antes de acceder a valores
+    # Puntaje de corte por carrera
+if uni and car:
     fila_corte = ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car)]
     if not fila_corte.empty:
         corte_default = int(fila_corte["Corte"].values[0])
     else:
-        corte_default = 500  # valor por defecto si no existe la combinación
+        corte_default = 500  # valor por defecto si no hay fila
+else:
+    corte_default = 500
+
 
     corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default)
 
