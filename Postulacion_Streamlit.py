@@ -212,3 +212,11 @@ if st.button("PONDERAR"):
         st.warning(f"No alcanzas el corte ({corte}). Progreso: {progreso:.1f}%.")
 
 
+# ===== Información de la fuente =====
+st.info(
+    "Toda la información presentada en esta plataforma ha sido recopilada y organizada a partir "
+    "de los datos oficiales publicados por el Departamento de Evaluación, Medición y Registro Educacional (DEMRE) de la Universidad de Chile."
+)
+
+
+
