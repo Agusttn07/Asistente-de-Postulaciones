@@ -2,91 +2,10 @@
 import streamlit as st
 import pandas as pd
 import unicodedata
+from PIL import Image
 import os
+
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
-
-colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
-# ===== Universidad y Carrera con logos dinámicos =====
-with colL:
-    st.subheader("Universidad y Carrera")
-
-    # Universidades disponibles
-    universidades = sorted(ponderaciones_df["universidad"].unique())
-    universidades_opciones = universidades + ["Otra"]
-
-    # Carpeta de logos
-    carpeta_logos = "logos_universidad"
-
-    # Crear diccionario automático de logos
-    logos = {}
-    if os.path.exists(carpeta_logos):
-        for archivo in os.listdir(carpeta_logos):
-            if archivo.lower().endswith((".png", ".jpg", ".jpeg", ".svg")):
-                nombre_uni = os.path.splitext(archivo)[0]  # sin extensión
-                # Reemplazar guiones bajos por espacios y normalizar
-                nombre_uni = nombre_uni.replace("_", " ")
-                logos[nombre_uni] = os.path.join(carpeta_logos, archivo)
-
-    # Columnas: logo a la izquierda y selectbox a la derecha
-    logo_col, uni_col = st.columns([1, 4])
-
-    with uni_col:
-        uni_selec = st.selectbox("Universidad", universidades_opciones, index=None)
-
-    with logo_col:
-        logo_mostrado = False
-        for nombre_logo, ruta_logo in logos.items():
-            if normalizar(nombre_logo) == normalizar(uni_selec):
-                st.image(ruta_logo, width=50)
-                logo_mostrado = True
-                break
-        if not logo_mostrado:
-            st.write("")  # espacio vacío si no hay logo
-
-    # Normalizar lo que escribe el usuario
-    uni_input = st.session_state.get("Universidad", "")
-    uni_norm = normalizar(uni_input)
-
-    # Reemplazar por la coincidencia si existe
-    if uni_norm:
-        posibles_unis = [u for u in universidades if normalizar(u) == uni_norm]
-        if posibles_unis:
-            uni = posibles_unis[0]
-        else:
-            uni = uni_selec if uni_selec else "Otra"
-    else:
-        uni = uni_selec if uni_selec else "Otra"
-
-    # Carreras asociadas a esa universidad
-    if uni != "Otra":
-        carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
-        carreras_opciones = carreras + ["Otra"]
-        car_selec = st.selectbox("Carrera", carreras_opciones, index=None)
-
-        car_input = st.session_state.get("Carrera", "")
-        car_norm = normalizar(car_input)
-
-        if car_norm:
-            posibles_carreras = [c for c in carreras if normalizar(c) == car_norm]
-            if posibles_carreras:
-                car = posibles_carreras[0]
-            else:
-                car = car_selec if car_selec else "Otra"
-        else:
-            car = car_selec if car_selec else "Otra"
-
-        # Sedes
-        sedes = sorted(
-            ponderaciones_df.loc[
-                (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car),
-                "sede"
-            ].unique()
-        )
-        sede = st.selectbox("Sede", sedes if sedes else [], index=None)
-    else:
-        car = st.text_input("Carrera (otra)", "")
-        sede = st.text_input("Sede (otra)", "")
-
 
 # ===== Utilidades =====
 def safe_int(x):
@@ -106,6 +25,14 @@ def clamp_0_1000(x):
     except:
         return None
 
+# ===== Normalizador =====
+def normalizar(texto):
+    if not isinstance(texto, str):
+        return ""
+    texto = texto.lower().strip()
+    texto = unicodedata.normalize("NFD", texto)
+    texto = "".join(c for c in texto if unicodedata.category(c) != "Mn")  # quita tildes
+    return texto
 
 # ===== Carga de Carreras =====
 @st.cache_data
@@ -181,8 +108,17 @@ def cargar_ponderaciones(force_update=False):
     ]
     return pd.DataFrame(data)
 
-
 ponderaciones_df = cargar_ponderaciones(force_update=True)
+
+# ===== Logos de universidades =====
+# Nombre del archivo de cada universidad debe coincidir con la clave en este diccionario
+logos = {
+    "Pontificia Universidad Católica de Chile": "u_catolica.png",
+    # Agrega más universidades si quieres
+}
+
+# Carpeta donde están los logos en tu repositorio
+logos_path = "logos_universidad"
 
 # ===== Sidebar: datos del postulante =====
 with st.sidebar:
@@ -195,32 +131,24 @@ st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
 # ===== Layout principal =====
 colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 
-
-# ===== Normalizador =====
-def normalizar(texto):
-    if not isinstance(texto, str):
-        return ""
-    texto = texto.lower().strip()
-    texto = unicodedata.normalize("NFD", texto)
-    texto = "".join(c for c in texto if unicodedata.category(c) != "Mn")  # quita tildes
-    return texto
-
 # ===== Universidad y Carrera =====
 with colL:
     st.subheader("Universidad y Carrera")
 
-    # Universidades disponibles
     universidades = sorted(ponderaciones_df["universidad"].unique())
     universidades_opciones = universidades + ["Otra"]
 
-    # Selectbox universidad
     uni_selec = st.selectbox("Universidad", universidades_opciones, index=None)
 
-    # Normalizar lo que escribe el usuario
+    # Mostrar logo al lado del nombre si existe
+    if uni_selec != "Otra" and uni_selec in logos:
+        logo_file = os.path.join(logos_path, logos[uni_selec])
+        if os.path.exists(logo_file):
+            st.image(logo_file, width=60)  # Ajusta tamaño del logo
+
     uni_input = st.session_state.get("Universidad", "")
     uni_norm = normalizar(uni_input)
 
-    # Reemplazar por la coincidencia si existe
     if uni_norm:
         posibles_unis = [u for u in universidades if normalizar(u) == uni_norm]
         if posibles_unis:
@@ -230,7 +158,6 @@ with colL:
     else:
         uni = uni_selec if uni_selec else "Otra"
 
-    # Carreras asociadas a esa universidad
     if uni != "Otra":
         carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
         carreras_opciones = carreras + ["Otra"]
@@ -248,7 +175,6 @@ with colL:
         else:
             car = car_selec if car_selec else "Otra"
 
-        # Sedes
         sedes = sorted(
             ponderaciones_df.loc[
                 (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car),
@@ -259,7 +185,6 @@ with colL:
     else:
         car = st.text_input("Carrera (otra)", "")
         sede = st.text_input("Sede (otra)", "")
-
 
 # ===== Puntajes =====
 with colC:
@@ -273,11 +198,10 @@ with colC:
     cs = st.number_input("Ciencias", min_value=0, max_value=1000, value=0)
     hs = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
 
-    # Puntaje de corte por carrera
     if uni != "Otra" and car:
         corte_default = int(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "Corte"].values[0])
     else:
-        corte_default = 500  # valor por defecto para "Otra"
+        corte_default = 500
     corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default)
 
 # ===== Ponderaciones =====
@@ -293,7 +217,6 @@ with colR:
         p_cie_default = int(fila["Ciencias"].values[0])
         p_his_default = int(fila["Historia"].values[0])
     else:
-        # valores para "Otra"
         p_nem_default = p_rank_default = p_lec_default = p_m1_default = p_m2_default = p_cie_default = p_his_default = 0
 
     p_nem = st.number_input("Ponderación NEM", min_value=0, max_value=100, value=p_nem_default)
@@ -328,9 +251,21 @@ if st.button("PONDERAR"):
     else:
         st.warning(f"No alcanzas el corte ({corte}). Progreso: {progreso:.1f}%.")
 
-
 # ===== Información de la fuente =====
 st.info(
     "Toda la información presentada en esta plataforma ha sido recopilada y organizada a partir "
     "de los datos oficiales publicados por el Departamento de Evaluación, Medición y Registro Educacional (DEMRE) de la Universidad de Chile."
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
