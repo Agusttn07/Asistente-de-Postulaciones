@@ -68,20 +68,6 @@ def cargar_ponderaciones(force_update=False):
         {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Medicina","sede":"Santiago","NEM":20,"Ranking":20,"Lectora":15,"M1":20,"M2":0,"Ciencias":25,"Historia":0,"Corte":954.45},
         {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Medicina Veterinaria","sede":"San Joaquín","NEM":20,"Ranking":20,"Lectora":10,"M1":20,"M2":0,"Ciencias":25,"Historia":0,"Corte":825.50},
         {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Música","sede":"Santiago","NEM":25,"Ranking":25,"Lectora":25,"M1":25,"M2":0,"Ciencias":0,"Historia":10,"Corte":659.24},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Nutrición y Dietética","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":760.15},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Odontología","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":865.40},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Pedagogía en Educación Especial","sede":"San Joaquín","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":725.60},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Pedagogía en Educación Física y Salud","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":741.60},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Pedagogía General Básica","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":690.00},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Pedagogía en Educación Media en Ciencias Naturales y Biología","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":765.60},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Pedagogía en Educación Media en Física","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":729.90},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Pedagogía en Educación Media en Matemática","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":808.35},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Pedagogía en Educación Media en Química","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":649.70},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Pedagogía en Educación Parvularia","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":721.75},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Pedagogía en Inglés","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":760.30},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Trabajo Social","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":690.40},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Terapia Ocupacional","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":746.80},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Teología","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":546.00},
     ]
     return pd.DataFrame(data)
 
