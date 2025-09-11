@@ -30,7 +30,24 @@ def clamp_0_1000(x: Optional[str]) -> Optional[float]:
 def cargar_ponderaciones(force_update=False):
     data = [
         #Universidad de Chile
-        {"universidad":"Universidad de Chile","carrera":"Arquitectura","sede":"Beauchef","NEM":10,"Ranking":20,"Lectora":20,"M1":30,"M2":10,"Ciencias":10,"Historia":10,"Corte":746.80},
+        {"universidad":"Universidad de Chile","carrera":"Arquitectura","sede":"Beauchef",
+         "NEM":10,"Ranking":20,"Lectora":20,"M1":30,"M2":10,"Ciencias":10,"Historia":10,"Corte":746.80},
+
+        {"universidad":"Universidad de Chile","carrera":"Diseño","sede":"Beauchef",
+         "NEM":10,"Ranking":30,"Lectora":25,"M1":25,"M2":0,"Ciencias":10,"Historia":10,"Corte":746.80},
+
+        {"universidad":"Universidad de Chile","carrera":"Geografía","sede":"Beauchef",
+         "NEM":10,"Ranking":25,"Lectora":20,"M1":25,"M2":0,"Ciencias":20,"Historia":20,"Corte":629.7},
+
+        {"universidad":"Universidad de Chile","carrera":"Actuación Teatral","sede":"Beauchef","NEM":10,"Ranking":10,"Lectora":10,"M1":10,"M2":0,"Ciencias":0,"Historia":10,"Corte":653.80},
+        {"universidad":"Universidad de Chile","carrera":"Artes Visuales, Lic. en Artes con mención en","sede":"Casa Central","NEM":10,"Ranking":20,"Lectora":35,"M1":10,"M2":0,"Ciencias":25,"Historia":0,"Corte":90},
+        {"universidad":"Universidad de Chile","carrera":"Danza","sede":"Casa Central","NEM":10,"Ranking":10,"Lectora":10,"M1":10,"M2":0,"Ciencias":10,"Historia":0,"Corte":0},
+        {"universidad":"Universidad de Chile","carrera":"Diseño Teatral","sede":"Casa Central","NEM":10,"Ranking":20,"Lectora":25,"M1":20,"M2":0,"Ciencias":25,"Historia":0,"Corte":0},
+        {"universidad":"Universidad de Chile","carrera":"Ingeniería en Sonido","sede":"Casa Central","NEM":10,"Ranking":20,"Lectora":20,"M1":30,"M2":10,"Ciencias":0,"Historia":10,"Corte":0},
+        {"universidad":"Universidad de Chile","carrera":"Teoría de la Música","sede":"Casa Central","NEM":10,"Ranking":20,"Lectora":30,"M1":15,"M2":0,"Ciencias":25,"Historia":0,"Corte":0},
+        {"universidad":"Universidad de Chile","carrera":"Teoría e Historia del Arte, con mención en Lic. en Artes","sede":"Casa Central","NEM":10,"Ranking":20,"Lectora":35,"M1":10,"M2":0,"Ciencias":25,"Historia":0,"Corte":0},
+        {"universidad":"Universidad de Chile","carrera":"Composición","sede":"Casa Central","NEM":10,"Ranking":10,"Lectora":10,"M1":10,"M2":0,"Ciencias":10,"Historia":0,"Corte":0},
+
          
 
         #Universidad Catolica
@@ -217,6 +234,4 @@ st.info(
     "Toda la información presentada en esta plataforma ha sido recopilada y organizada a partir "
     "de los datos oficiales publicados por el Departamento de Evaluación, Medición y Registro Educacional (DEMRE) de la Universidad de Chile."
 )
-
-
 
