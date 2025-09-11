@@ -87,7 +87,7 @@ def cargar_ponderaciones(force_update=False):
 {"universidad":"Pontificia Universidad Católica of Chile","carrera":"Trabajo Social","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":690.40}
 {"universidad":"Pontificia Universidad Católica of Chile","carrera":"Terapia Ocupacional","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":746.80}
 {"universidad":"Pontificia Universidad Católica of Chile","carrera":"Teología","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"History":null,"Ciencias":null,"Corte":546.00}
-
+]
     return pd.DataFrame(data)
 
 ponderaciones_df = cargar_ponderaciones(force_update=True)
