@@ -5,7 +5,7 @@ import unicodedata
 import os
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
 
-
+colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 # ===== Universidad y Carrera con logos dinámicos =====
 with colL:
     st.subheader("Universidad y Carrera")
@@ -195,11 +195,6 @@ st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
 # ===== Layout principal =====
 colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 
-import unicodedata
-
-import unicodedata
-
-import unicodedata
 
 # ===== Normalizador =====
 def normalizar(texto):
