@@ -2,8 +2,80 @@
 import streamlit as st
 import pandas as pd
 import unicodedata
-
+import os
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
+
+
+# ===== Universidad y Carrera con logos dinámicos =====
+with colL:
+    st.subheader("Universidad y Carrera")
+
+    # Listado de universidades
+    universidades = sorted(ponderaciones_df["universidad"].unique())
+    universidades_opciones = universidades + ["Otra"]
+
+    # Diccionario dinámico de logos
+    # Clave: nombre de la universidad, Valor: ruta del logo
+    logos = {
+        "Pontificia Universidad Católica de Chile": "logos_universidad/u_catolica.png",
+        
+    }
+
+    # Columnas: logo a la izquierda y selectbox a la derecha
+    logo_col, uni_col = st.columns([1, 4])
+
+    with uni_col:
+        uni_selec = st.selectbox("Universidad", universidades_opciones, index=None)
+
+    with logo_col:
+        if uni_selec in logos:
+            st.image(logos[uni_selec], width=50)
+        else:
+            st.write("")  # si no hay logo disponible
+
+    # Normalización y selección
+    uni_input = st.session_state.get("Universidad", "")
+    uni_norm = normalizar(uni_input)
+
+    if uni_norm:
+        posibles_unis = [u for u in universidades if normalizar(u) == uni_norm]
+        if posibles_unis:
+            uni = posibles_unis[0]
+        else:
+            uni = uni_selec if uni_selec else "Otra"
+    else:
+        uni = uni_selec if uni_selec else "Otra"
+
+    # Carreras asociadas a la universidad
+    if uni != "Otra":
+        carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
+        carreras_opciones = carreras + ["Otra"]
+        car_selec = st.selectbox("Carrera", carreras_opciones, index=None)
+
+        car_input = st.session_state.get("Carrera", "")
+        car_norm = normalizar(car_input)
+
+        if car_norm:
+            posibles_carreras = [c for c in carreras if normalizar(c) == car_norm]
+            if posibles_carreras:
+                car = posibles_carreras[0]
+            else:
+                car = car_selec if car_selec else "Otra"
+        else:
+            car = car_selec if car_selec else "Otra"
+
+        # Sedes
+        sedes = sorted(
+            ponderaciones_df.loc[
+                (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car),
+                "sede"
+            ].unique()
+        )
+        sede = st.selectbox("Sede", sedes if sedes else [], index=None)
+    else:
+        car = st.text_input("Carrera (otra)", "")
+        sede = st.text_input("Sede (otra)", "")
+
 
 # ===== Utilidades =====
 def safe_int(x):
