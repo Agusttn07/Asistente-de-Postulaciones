@@ -5,6 +5,8 @@ from typing import Optional
 
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
 
+st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
+
 st.markdown(
     """
     <div style="background-color:#d6e4ff; padding:12px; border-radius:10px; border:1px solid #99b3ff; margin-bottom:15px;">
@@ -230,8 +232,6 @@ with st.sidebar:
     st.header("👤 Datos del postulante")
     nombre: str = st.text_input("Nombre del alumno", "")
     curso: str = st.text_input("Curso", "")
-
-st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
 
 # ===== Layout principal =====
 colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
