@@ -1,6 +1,7 @@
 # Postulacion_Streamlit.py
 import streamlit as st
 import pandas as pd
+import unicodedata
 
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
 
@@ -110,20 +111,55 @@ st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
 # ===== Layout principal =====
 colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 
+# ===== Normalizador =====
+def normalizar(texto):
+    if not isinstance(texto, str):
+        return ""
+    texto = texto.lower().strip()
+    texto = unicodedata.normalize("NFD", texto)
+    texto = "".join(c for c in texto if unicodedata.category(c) != "Mn")  # quitar tildes
+    return texto
+
 # ===== Universidad y Carrera =====
 with colL:
     st.subheader("Universidad y Carrera")
+    
+    # Lista completa (con opción "Otra")
     universidades = sorted(ponderaciones_df["universidad"].unique())
-    universidades.append("Otra")  # <-- añadimos opción "Otra"
-    uni = st.selectbox("Universidad", universidades, index=None)
+    universidades.append("Otra")
+    
+    # Entrada manual con autocompletado flexible
+    uni_input = st.text_input("Universidad", "")
+    car_input = st.text_input("Carrera", "")
+    
+    # Normalizamos inputs y data
+    uni_norm = normalizar(uni_input)
+    car_norm = normalizar(car_input)
+    
+    # Filtrar universidad si coincide (solo si no escribió "otra")
+    if uni_norm and uni_norm != "otra":
+        posibles_unis = [u for u in universidades if normalizar(u) == uni_norm]
+        if posibles_unis:
+            uni = posibles_unis[0]
+        else:
+            uni = "Otra"
+    else:
+        uni = "Otra"
 
+    # Filtrar carreras si universidad es válida
     if uni != "Otra":
-        carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"]==uni, "carrera"].unique())
-        car = st.selectbox("Carrera", carreras if carreras else [], index=None)
-        sedes = sorted(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "sede"].unique()) if uni and car else []
+        carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
+        if car_norm:
+            posibles_carreras = [c for c in carreras if normalizar(c) == car_norm]
+            car = posibles_carreras[0] if posibles_carreras else car_input  # si no encuentra, deja lo escrito
+        else:
+            car = st.selectbox("Carrera", carreras if carreras else [], index=None)
+        
+        # Sedes asociadas
+        sedes = sorted(ponderaciones_df.loc[(ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car), "sede"].unique()) if uni and car else []
         sede = st.selectbox("Sede", sedes if sedes else [], index=None)
     else:
-        car = st.text_input("Carrera (otra)", "")
+        car = car_input
         sede = st.text_input("Sede (otra)", "")
 
 # ===== Puntajes =====
