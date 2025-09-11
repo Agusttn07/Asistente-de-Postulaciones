@@ -30,23 +30,8 @@ def clamp_0_1000(x: Optional[str]) -> Optional[float]:
 def cargar_ponderaciones(force_update=False):
     data = [
         #Universidad de Chile
-        {"universidad": "Universidad de Chile", "carrera": "Arquitectura, "sede":"Beauchef",
-         "NEM": 10, "Ranking": 20, "Lectora": 20, "M1": 30, "M2": 10, "Ciencias": 10, "Historia": 10, "Corte": 746.80},
+        {"universidad": "Universidad de Chile", "carrera": "Arquitectura, "sede":"Beauchef","NEM": 10, "Ranking": 20, "Lectora": 20, "M1": 30, "M2": 10, "Ciencias": 10, "Historia": 10, "Corte": 746.80},
          
-         {"universidad": "Universidad de Chile", "carrera": "Diseño, "sede":"Beauchef",
-         "NEM": 10, "Ranking": 20, "Lectora": 20, "M1": 30, "M2": 10, "Ciencias": 10, "Historia": 10, "Corte": 746.80},
-        
-
-         
-         
-
-        #Universidad de Santiago de Chile
-        {"universidad": "Universidad de Santiago de Chile", "carrera": "Ingeniería y Ciencias (Plan Común)", "sede": "Beauchef",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0, "Corte": 500},
-
-        #Universidad Técnica Federico Santa María
-        {"universidad": "Universidad Técnica Federico Santa María", "carrera": "Ingeniería y Ciencias (Plan Común)", "sede": "Beauchef",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0, "Corte": 500},
 
         #Universidad Catolica
         {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Actuación","sede":"Casa Central","NEM":12,"Ranking":12,"Lectora":16,"M1":10,"M2":0,"Ciencias":0,"Historia":10,"Corte":792.18},
