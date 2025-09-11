@@ -30,10 +30,12 @@ def clamp_0_1000(x: Optional[str]) -> Optional[float]:
 def cargar_ponderaciones(force_update=False):
     data = [
         #Universidad de Chile
-        {"universidad": "Universidad de Chile", "carrera": "Arquitectura, "sede": "Beauchef", 
-         "NEM": 10, "Ranking": 20, "Lectora": 20, "M1": 30, "M2": 10, "Ciencias": 10, "Historia": 10, "Corte": 746.80},
-         {"universidad": "Universidad de Chile", "carrera": "diseño, "sede": "Beauchef", 
-         "NEM": 10, "Ranking": 20, "Lectora": 20, "M1": 30, "M2": 10, "Ciencias": 10, "Historia": 10, "Corte": 746.80},
+        {"universidad": "Universidad de Chile", "carrera": "Arquitectura, "sede": "Beauchef",
+        "NEM": 10, "Ranking": 20, "Lectora": 20, "M1": 30, "M2": 10, "Ciencias": 10, "Historia": 10, "Corte": 746.80},
+
+        {"universidad": "Universidad de Chile", "carrera": "Diseño, "sede": "Beauchef",
+        "NEM": 10, "Ranking": 20, "Lectora": 20, "M1": 30, "M2": 10, "Ciencias": 10, "Historia": 10, "Corte": 746.80},
+         
          
 
         #Universidad de Santiago de Chile
