@@ -50,9 +50,38 @@ def clamp_0_1000(x: Optional[str]) -> Optional[float]:
     except:
         return None
 
-# ===== Carga de Carreras =====
-# 🔹 Limpieza: quitar filas donde universidad esté vacío/nan
-df = df.dropna(subset=["universidad"])
+# ===== Normalizador de opciones =====
+@st.cache_data
+def normalizar_texto(texto: str) -> str:
+    return texto.lower().replace("á", "a").replace("é", "e") \
+                       .replace("í", "i").replace("ó", "o") \
+                       .replace("ú", "u").replace("ñ", "n") \
+                       .strip()
+
+# ===== Cargar carreras =====
+df_carreras = pd.DataFrame(cargar_ponderaciones())
+
+# ===== Selección de filtros =====
+universidades = sorted(df_carreras['universidad'].unique())
+universidad_sel = st.selectbox("Selecciona Universidad", universidades)
+
+df_filtrado = df_carreras[df_carreras['universidad'] == universidad_sel]
+
+carreras = sorted(df_filtrado['carrera'].unique())
+carrera_sel = st.selectbox("Selecciona Carrera", carreras)
+
+df_filtrado_carrera = df_filtrado[df_filtrado['carrera'] == carrera_sel]
+
+sedes = sorted(df_filtrado_carrera['sede'].unique())
+sede_sel = st.selectbox("Selecciona Sede", sedes)
+
+# ===== Mostrar ponderaciones y corte =====
+df_resultado = df_filtrado_carrera[df_filtrado_carrera['sede'] == sede_sel]
+df_resultado_display = df_resultado[['NEM','Ranking','Lectora','M1','M2','Ciencias','Historia','Corte']]
+
+st.markdown(f"### Resultados para {carrera_sel} - {sede_sel}")
+st.dataframe(df_resultado_display)
+)
 
 @st.cache_data
 def cargar_ponderaciones(force_update=False):
