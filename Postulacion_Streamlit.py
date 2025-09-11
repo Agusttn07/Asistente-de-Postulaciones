@@ -24,8 +24,6 @@ def clamp_0_1000(x):
 
 # ===== Carga de Carreras =====
 @st.cache_data
-# ===== Carga de Carreras =====
-@st.cache_data
 def cargar_ponderaciones(force_update=False):
     data = [
         #Universidad de Chile
@@ -86,6 +84,7 @@ def cargar_ponderaciones(force_update=False):
         {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Teología","sede":"Santiago","NEM":null,"Ranking":null,"Lectora":null,"M1":null,"M2":0,"Ciencias":null,"Historia":null,"Corte":546.00},
     ]
     return pd.DataFrame(data)
+
 
 ponderaciones_df = cargar_ponderaciones(force_update=True)
 
