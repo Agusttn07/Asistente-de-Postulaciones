@@ -28,7 +28,7 @@ def clamp_0_1000(x):
 def cargar_ponderaciones(force_update=False):
     data = [
         #Universidad de Chile
-        {"universidad": "Universidad de Chile", "carrera": "Ingeniería y Ciencias (Plan Común)", "sede": "Santiago",
+        {"universidad": "Universidad de Chile", "carrera": "Ingeniería y Ciencias (Plan Común)", "sede": "Beauchef",
          "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0, "Corte": 500},
 
         #Universidad Catolica
