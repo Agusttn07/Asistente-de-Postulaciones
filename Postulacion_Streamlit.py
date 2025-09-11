@@ -2,39 +2,29 @@
 import streamlit as st
 import pandas as pd
 import unicodedata
-from PIL import Image
-import os
+from typing import Optional, List
 
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
-car = ""
-sede = ""
 
 # ===== Utilidades =====
-def safe_int(x):
+def safe_int(x: any) -> Optional[int]:
     try:
         return int(str(x).strip())
-    except:
+    except Exception:
         return None
 
-def clamp_0_1000(x):
+def clamp_0_1000(x: any) -> Optional[float]:
     if x is None or x == "":
         return None
     try:
-        v = float(x)
-        if v < 0: return 0.0
-        if v > 1000: return 1000.0
+        v: float = float(x)
+        if v < 0:
+            return 0.0
+        if v > 1000:
+            return 1000.0
         return v
-    except:
+    except Exception:
         return None
-
-# ===== Normalizador =====
-def normalizar(texto):
-    if not isinstance(texto, str):
-        return ""
-    texto = texto.lower().strip()
-    texto = unicodedata.normalize("NFD", texto)
-    texto = "".join(c for c in texto if unicodedata.category(c) != "Mn")  # quita tildes
-    return texto
 
 # ===== Carga de Carreras =====
 @st.cache_data
@@ -108,129 +98,95 @@ def cargar_ponderaciones(force_update=False):
         
         
     ]
+
     return pd.DataFrame(data)
 
-import streamlit as st
-import pandas as pd
-
-# ===== Carga de Carreras =====
-@st.cache_data
-def cargar_ponderaciones(force_update=False):
-    data = [
-        # Universidad de Chile
-        {"universidad": "Universidad de Chile", "carrera": "Ingeniería y Ciencias (Plan Común)", "sede": "Beauchef",
-         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0, "Corte": 500},
-
-        # Pontificia Universidad Católica de Chile
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Actuación","sede":"Casa Central",
-         "NEM":12,"Ranking":12,"Lectora":16,"M1":10,"M2":0,"Ciencias":0,"Historia":10,"Corte":792.18},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Administración Pública","sede":"Santiago",
-         "NEM":20,"Ranking":20,"Lectora":20,"M1":30,"M2":0,"Ciencias":10,"Historia":10,"Corte":779.90},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Agronomía","sede":"San Joaquín",
-         "NEM":20,"Ranking":30,"Lectora":10,"M1":30,"M2":0,"Ciencias":10,"Historia":0,"Corte":723.20},
-        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Antropología","sede":"San Joaquín",
-         "NEM":20,"Ranking":25,"Lectora":20,"M1":20,"M2":0,"Ciencias":0,"Historia":15,"Corte":780.55},
-        # ... agregar todas las demás carreras aquí
-    ]
-    return pd.DataFrame(data)
-
-# ===== Cargar datos =====
-df = cargar_ponderaciones()
-
-# ===== Streamlit App =====
-st.title("Buscador de Carreras UC y U. de Chile")
-
-# Selección de universidad
-universidad = st.selectbox("Selecciona universidad", df["universidad"].unique())
-
-# Filtrar carreras de la universidad seleccionada
-carreras_univ = df[df["universidad"] == universidad]["carrera"].sort_values()
-carrera = st.selectbox("Selecciona carrera", carreras_univ)
-
-# Mostrar los datos de la carrera seleccionada en una tabla
-df_seleccion = df[(df["universidad"] == universidad) & (df["carrera"] == carrera)]
-
-if not df_seleccion.empty:
-    st.subheader(f"Datos de la carrera: {carrera}")
-
-    # Mostrar información general
-    st.table(df_seleccion[["sede","Corte"]].reset_index(drop=True))
-
-    # Mostrar ponderaciones (%) para cálculo
-    st.subheader("Ponderaciones (%)")
-    ponderaciones_cols = ["NEM","Ranking","Lectora","M1","M2","Ciencias","Historia"]
-    st.table(df_seleccion[ponderaciones_cols].reset_index(drop=True))
-
-else:
-    st.warning("No se encontraron datos para la carrera seleccionada.")
-
+ponderaciones_df: pd.DataFrame = cargar_ponderaciones(force_update=True)
 
 # ===== Sidebar: datos del postulante =====
 with st.sidebar:
     st.header("👤 Datos del postulante")
-    nombre = st.text_input("Nombre del alumno", "")
-    curso = st.text_input("Curso", "")
+    nombre: str = st.text_input("Nombre del alumno", "")
+    curso: str = st.text_input("Curso", "")
 
-# ===== Título principal =====
 st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
 
-# ===== Logos de universidades =====
-logos_universidad = {
-    "Pontificia Universidad Católica de Chile": "logos_universidad/u_catolica.png",
-    "Universidad de Chile": "logos_universidad/u_chile.png",
-    # agrega más universidades y sus logos
-}
+# ===== Layout principal =====
+colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 
-# ===== SECCIÓN UNIVERSIDAD Y CARRERA =====
-st.subheader("Universidad y Carrera")
+# ===== Normalizador =====
+def normalizar(texto: any) -> str:
+    if not isinstance(texto, str):
+        return ""
+    texto = texto.lower().strip()
+    texto = unicodedata.normalize("NFD", texto)
+    texto = "".join(c for c in texto if unicodedata.category(c) != "Mn")
+    return texto
 
-uni = None
-universidades = sorted(ponderaciones_df["universidad"].unique())
-for u in universidades:
-    logo_path = logos_universidad.get(u, None)
-    col1, col2 = st.columns([0.1, 0.9])
-    with col1:
-        if logo_path and os.path.exists(logo_path):
-            st.image(logo_path, width=30)
-    with col2:
-        if st.button(u, key=u):
-            uni = u
+# ===== Universidad y Carrera =====
+with colL:
+    st.subheader("Universidad y Carrera")
 
-# Selección de carrera y sede
-if uni:
-    carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"]==uni, "carrera"].unique())
-    car = st.selectbox("Carrera", [""] + carreras)
-    if car:
-        sedes = sorted(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "sede"].unique())
-        sede = st.selectbox("Sede", [""] + list(sedes))
+    universidades: List[str] = sorted(ponderaciones_df["universidad"].unique())
+    universidades_opciones: List[str] = universidades + ["Otra"]
 
-# ===== COLUMNAS DE PUNTAJES Y PONDERACIONES =====
-colPAES, colPond = st.columns([1, 1])
+    uni_selec: str = st.selectbox("Universidad", universidades_opciones, index=None)
+    uni_input: str = st.session_state.get("Universidad", "")
+    uni_norm: str = normalizar(uni_input)
 
-with colPAES:
-    st.subheader("Puntajes PAES (100–1000)")
-    nem = st.number_input("NEM", min_value=100, max_value=1000, value=100)
-    ranking = st.number_input("Ranking", min_value=100, max_value=1000, value=100)
-    cl = st.number_input("Competencia Lectora", min_value=100, max_value=1000, value=100)
-    m1 = st.number_input("Matemática 1 (M1)", min_value=100, max_value=1000, value=100)
-    m2 = st.number_input("Matemática 2 (M2)", min_value=0, max_value=1000, value=0)
-    opcion_ch = st.radio("Prueba Electiva", ["Ciencias", "Historia"], horizontal=True)
-    cs = st.number_input("Ciencias", min_value=0, max_value=1000, value=0)
-    hs = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
-
-    # Puntaje de corte seguro
-    if uni and car:
-        fila_corte = ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car)]
-        corte_default = int(fila_corte["Corte"].values[0]) if not fila_corte.empty else 500
+    if uni_norm:
+        posibles_unis: List[str] = [u for u in universidades if normalizar(u) == uni_norm]
+        uni: str = posibles_unis[0] if posibles_unis else uni_selec or "Otra"
     else:
-        corte_default = 500
+        uni: str = uni_selec or "Otra"
 
-    corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default)
+    if uni != "Otra":
+        carreras: List[str] = sorted(
+            ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique()
+        )
+        carreras_opciones: List[str] = carreras + ["Otra"]
+        car_selec: str = st.selectbox("Carrera", carreras_opciones, index=None)
+        car_input: str = st.session_state.get("Carrera", "")
+        car_norm: str = normalizar(car_input)
+        if car_norm:
+            posibles_carreras: List[str] = [c for c in carreras if normalizar(c) == car_norm]
+            car: str = posibles_carreras[0] if posibles_carreras else car_selec or "Otra"
+        else:
+            car: str = car_selec or "Otra"
 
-with colPond:
+        sedes: List[str] = sorted(
+            ponderaciones_df.loc[
+                (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car),
+                "sede"
+            ].unique()
+        )
+        sede: str = st.selectbox("Sede", sedes if sedes else [], index=None)
+    else:
+        car: str = st.text_input("Carrera (otra)", "")
+        sede: str = st.text_input("Sede (otra)", "")
+
+# ===== Puntajes =====
+with colC:
+    st.subheader("Puntajes PAES (100–1000)")
+    nem: int = st.number_input("NEM", min_value=100, max_value=1000, value=100)
+    ranking: int = st.number_input("Ranking", min_value=100, max_value=1000, value=100)
+    cl: int = st.number_input("Competencia Lectora", min_value=100, max_value=1000, value=100)
+    m1: int = st.number_input("Matemática 1 (M1)", min_value=100, max_value=1000, value=100)
+    m2: int = st.number_input("Matemática 2 (M2)", min_value=0, max_value=1000, value=0)
+    opcion_ch: str = st.radio("Prueba Electiva", ["Ciencias", "Historia"], horizontal=True)
+    cs: int = st.number_input("Ciencias", min_value=0, max_value=1000, value=0)
+    hs: int = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
+
+    corte_default: int = int(
+        ponderaciones_df.loc[(ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car), "Corte"].values[0]
+    ) if uni != "Otra" and car else 500
+    corte: int = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default)
+
+# ===== Ponderaciones =====
+with colR:
     st.subheader("Ponderaciones (%)")
-    if uni and car:
-        fila = ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car)]
+    if uni != "Otra" and car:
+        fila = ponderaciones_df.loc[(ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car)]
         p_nem_default = int(fila["NEM"].values[0])
         p_rank_default = int(fila["Ranking"].values[0])
         p_lec_default = int(fila["Lectora"].values[0])
@@ -241,46 +197,40 @@ with colPond:
     else:
         p_nem_default = p_rank_default = p_lec_default = p_m1_default = p_m2_default = p_cie_default = p_his_default = 0
 
-    p_nem = st.number_input("Ponderación NEM", min_value=0, max_value=100, value=p_nem_default)
-    p_rank = st.number_input("Ponderación Ranking", min_value=0, max_value=100, value=p_rank_default)
-    p_lec = st.number_input("Ponderación Comp. Lectora", min_value=0, max_value=100, value=p_lec_default)
-    p_m1  = st.number_input("Ponderación Matemática 1 (M1)", min_value=0, max_value=100, value=p_m1_default)
-    p_m2  = st.number_input("Ponderación Matemática 2 (M2)", min_value=0, max_value=100, value=p_m2_default)
-    p_cie = st.number_input("Ponderación Ciencias", min_value=0, max_value=100, value=p_cie_default)
-    p_his = st.number_input("Ponderación Historia", min_value=0, max_value=100, value=p_his_default)
+    p_nem: int = st.number_input("Ponderación NEM", min_value=0, max_value=100, value=p_nem_default)
+    p_rank: int = st.number_input("Ponderación Ranking", min_value=0, max_value=100, value=p_rank_default)
+    p_lec: int = st.number_input("Ponderación Comp. Lectora", min_value=0, max_value=100, value=p_lec_default)
+    p_m1: int = st.number_input("Ponderación Matemática 1 (M1)", min_value=0, max_value=100, value=p_m1_default)
+    p_m2: int = st.number_input("Ponderación Matemática 2 (M2)", min_value=0, max_value=100, value=p_m2_default)
+    p_cie: int = st.number_input("Ponderación Ciencias", min_value=0, max_value=100, value=p_cie_default)
+    p_his: int = st.number_input("Ponderación Historia", min_value=0, max_value=100, value=p_his_default)
 
-    suma_p = p_nem + p_rank + p_lec + p_m1 + p_m2 + p_cie + p_his
+    suma_p: int = p_nem + p_rank + p_lec + p_m1 + p_m2 + p_cie + p_his
     if suma_p != 100:
         st.warning(f"La suma de ponderaciones debe ser 100%. Actual: {suma_p}%")
 
 # ===== Botón Calcular =====
 if st.button("PONDERAR"):
-    opt_cie = cs if opcion_ch=="Ciencias" else 0
-    opt_his = hs if opcion_ch=="Historia" else 0
-    p_opt_cie = p_cie if opcion_ch=="Ciencias" else 0
-    p_opt_his = p_his if opcion_ch=="Historia" else 0
+    opt_cie: int = cs if opcion_ch == "Ciencias" else 0
+    opt_his: int = hs if opcion_ch == "Historia" else 0
+    p_opt_cie: int = p_cie if opcion_ch == "Ciencias" else 0
+    p_opt_his: int = p_his if opcion_ch == "Historia" else 0
 
-    ptotal = (
-        nem * p_nem/100 + ranking * p_rank/100 + cl * p_lec/100 +
-        m1 * p_m1/100 + m2 * p_m2/100 +
-        opt_cie * p_opt_cie/100 + opt_his * p_opt_his/100
+    ptotal: float = (
+        nem * p_nem / 100 +
+        ranking * p_rank / 100 +
+        cl * p_lec / 100 +
+        m1 * p_m1 / 100 +
+        m2 * p_m2 / 100 +
+        opt_cie * p_opt_cie / 100 +
+        opt_his * p_opt_his / 100
     )
 
-    progreso = min((ptotal / corte) * 100, 100)
+    progreso: float = min((ptotal / corte) * 100, 100)
     st.success(f"**{nombre or 'Postulante'}**, tu puntaje ponderado es **{ptotal:.2f}**.")
     if ptotal >= corte:
         st.info(f"Estás sobre el corte por {ptotal-corte:.2f} puntos ({progreso:.1f}% del corte).")
     else:
         st.warning(f"No alcanzas el corte ({corte}). Progreso: {progreso:.1f}%.")
-
-# ===== Información de la fuente =====
-st.info(
-    "Toda la información presentada en esta plataforma ha sido recopilada y organizada a partir "
-    "de los datos oficiales publicados por el Departamento de Evaluación, Medición y Registro Educacional (DEMRE) de la Universidad de Chile."
-)
-
-
-
-
 
 
