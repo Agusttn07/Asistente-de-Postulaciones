@@ -294,8 +294,7 @@ with colR:
     p_his: int = st.number_input("Ponderación Historia", min_value=0, max_value=100, value=p_his_default)
 
     suma_p: int = p_nem + p_rank + p_lec + p_m1 + p_m2 + p_cie + p_his
-    if suma_p != 100:
-        st.warning(f"La suma de ponderaciones debe ser 100%. Actual: {suma_p}%")
+
 
 # ===== Botón Calcular =====
 if st.button("PONDERAR"):
