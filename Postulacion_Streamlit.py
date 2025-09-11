@@ -110,6 +110,31 @@ def cargar_ponderaciones(force_update=False):
     ]
     return pd.DataFrame(data)
 
+# ===== Cargar datos =====
+df = cargar_ponderaciones()
+
+# ===== Streamlit App =====
+st.title("Buscador de Carreras UC y U. de Chile")
+
+# Selección de universidad
+universidad = st.selectbox("Selecciona universidad", df["universidad"].unique())
+
+# Filtrar carreras de la universidad seleccionada
+carreras_univ = df[df["universidad"] == universidad]["carrera"].sort_values()
+carrera = st.selectbox("Selecciona carrera", carreras_univ)
+
+# Mostrar los datos de la carrera seleccionada en una tabla
+df_seleccion = df[(df["universidad"] == universidad) & (df["carrera"] == carrera)]
+
+if not df_seleccion.empty:
+    st.subheader(f"Datos de la carrera: {carrera}")
+    
+    # Mostrar todos los campos en forma de tabla
+    st.table(df_seleccion[["sede","NEM","Ranking","Lectora","M1","M2","Ciencias","Historia","Corte"]].reset_index(drop=True))
+else:
+    st.warning("No se encontraron datos para la carrera seleccionada.")
+
+
 ponderaciones_df = cargar_ponderaciones(force_update=True)
 
 # ===== Sidebar: datos del postulante =====
@@ -225,10 +250,6 @@ st.info(
     "Toda la información presentada en esta plataforma ha sido recopilada y organizada a partir "
     "de los datos oficiales publicados por el Departamento de Evaluación, Medición y Registro Educacional (DEMRE) de la Universidad de Chile."
 )
-
-
-
-
 
 
 
