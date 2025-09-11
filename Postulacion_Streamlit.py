@@ -186,7 +186,7 @@ with colL:
         car = st.text_input("Carrera (otra)", "")
         sede = st.text_input("Sede (otra)", "")
 
-# ===== Puntajes =====
+# ===== Puntaje de corte =====
 with colC:
     st.subheader("Puntajes PAES (100–1000)")
     nem = st.number_input("NEM", min_value=100, max_value=1000, value=100)
@@ -198,10 +198,13 @@ with colC:
     cs = st.number_input("Ciencias", min_value=0, max_value=1000, value=0)
     hs = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
 
-    if uni != "Otra" and car:
-        corte_default = int(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "Corte"].values[0])
+    # ✅ Verificamos si existe la fila antes de acceder a valores
+    fila_corte = ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car)]
+    if not fila_corte.empty:
+        corte_default = int(fila_corte["Corte"].values[0])
     else:
-        corte_default = 500
+        corte_default = 500  # valor por defecto si no existe la combinación
+
     corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default)
 
 # ===== Ponderaciones =====
