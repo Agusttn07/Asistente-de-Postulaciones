@@ -110,81 +110,25 @@ def cargar_ponderaciones(force_update=False):
 
 ponderaciones_df = cargar_ponderaciones(force_update=True)
 
-# ===== Logos de universidades =====
-# Nombre del archivo de cada universidad debe coincidir con la clave en este diccionario
-logos = {
-    "Pontificia Universidad Católica de Chile": "u_catolica.png",
-    # Agrega más universidades si quieres
+import streamlit as st
+
+# Diccionario con logos
+logos_universidad = {
+    "Pontificia Universidad Católica de Chile": "logos_universidad/u_catolica.png",
+    # agrega todas tus universidades aquí
 }
 
-# Carpeta donde están los logos en tu repositorio
-logos_path = "logos_universidad"
+# ===== Selección de universidad con logos =====
+st.subheader("Universidad")
+uni_selec = None
+for uni, logo_path in logos_universidad.items():
+    col1, col2 = st.columns([1, 5])
+    with col1:
+        st.image(logo_path, width=30)
+    with col2:
+        if st.radio("", [uni], index=0):
+            uni_selec = uni
 
-# ===== Sidebar: datos del postulante =====
-with st.sidebar:
-    st.header("👤 Datos del postulante")
-    nombre = st.text_input("Nombre del alumno", "")
-    curso = st.text_input("Curso", "")
-
-st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
-
-# ===== Layout principal =====
-colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
-
-# ===== Universidad y Carrera =====
-with colL:
-    st.subheader("Universidad y Carrera")
-
-    universidades = sorted(ponderaciones_df["universidad"].unique())
-    universidades_opciones = universidades + ["Otra"]
-
-    uni_selec = st.selectbox("Universidad", universidades_opciones, index=None)
-
-    # Mostrar logo al lado del nombre si existe
-    if uni_selec != "Otra" and uni_selec in logos:
-        logo_file = os.path.join(logos_path, logos[uni_selec])
-        if os.path.exists(logo_file):
-            st.image(logo_file, width=60)  # Ajusta tamaño del logo
-
-    uni_input = st.session_state.get("Universidad", "")
-    uni_norm = normalizar(uni_input)
-
-    if uni_norm:
-        posibles_unis = [u for u in universidades if normalizar(u) == uni_norm]
-        if posibles_unis:
-            uni = posibles_unis[0]
-        else:
-            uni = uni_selec if uni_selec else "Otra"
-    else:
-        uni = uni_selec if uni_selec else "Otra"
-
-    if uni != "Otra":
-        carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
-        carreras_opciones = carreras + ["Otra"]
-        car_selec = st.selectbox("Carrera", carreras_opciones, index=None)
-
-        car_input = st.session_state.get("Carrera", "")
-        car_norm = normalizar(car_input)
-
-        if car_norm:
-            posibles_carreras = [c for c in carreras if normalizar(c) == car_norm]
-            if posibles_carreras:
-                car = posibles_carreras[0]
-            else:
-                car = car_selec if car_selec else "Otra"
-        else:
-            car = car_selec if car_selec else "Otra"
-
-        sedes = sorted(
-            ponderaciones_df.loc[
-                (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car),
-                "sede"
-            ].unique()
-        )
-        sede = st.selectbox("Sede", sedes if sedes else [], index=None)
-    else:
-        car = st.text_input("Carrera (otra)", "")
-        sede = st.text_input("Sede (otra)", "")
 
 # ===== Puntaje de corte =====
 with colC:
