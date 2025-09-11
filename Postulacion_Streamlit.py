@@ -1,19 +1,18 @@
 # Postulacion_Streamlit.py
 import streamlit as st
 import pandas as pd
-import unicodedata
-from typing import Optional, List
+from typing import Optional
 
 st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", layout="wide")
 
 # ===== Utilidades =====
-def safe_int(x: any) -> Optional[int]:
+def safe_int(x: Optional[str]) -> Optional[int]:
     try:
         return int(str(x).strip())
-    except Exception:
+    except:
         return None
 
-def clamp_0_1000(x: any) -> Optional[float]:
+def clamp_0_1000(x: Optional[str]) -> Optional[float]:
     if x is None or x == "":
         return None
     try:
@@ -23,7 +22,7 @@ def clamp_0_1000(x: any) -> Optional[float]:
         if v > 1000:
             return 1000.0
         return v
-    except Exception:
+    except:
         return None
 
 # ===== Carga de Carreras =====
@@ -98,7 +97,6 @@ def cargar_ponderaciones(force_update=False):
         
         
     ]
-
     return pd.DataFrame(data)
 
 ponderaciones_df: pd.DataFrame = cargar_ponderaciones(force_update=True)
@@ -114,52 +112,25 @@ st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
 # ===== Layout principal =====
 colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 
-# ===== Normalizador =====
-def normalizar(texto: any) -> str:
-    if not isinstance(texto, str):
-        return ""
-    texto = texto.lower().strip()
-    texto = unicodedata.normalize("NFD", texto)
-    texto = "".join(c for c in texto if unicodedata.category(c) != "Mn")
-    return texto
-
 # ===== Universidad y Carrera =====
 with colL:
     st.subheader("Universidad y Carrera")
-
-    universidades: List[str] = sorted(ponderaciones_df["universidad"].unique())
-    universidades_opciones: List[str] = universidades + ["Otra"]
-
-    uni_selec: str = st.selectbox("Universidad", universidades_opciones, index=None)
-    uni_input: str = st.session_state.get("Universidad", "")
-    uni_norm: str = normalizar(uni_input)
-
-    if uni_norm:
-        posibles_unis: List[str] = [u for u in universidades if normalizar(u) == uni_norm]
-        uni: str = posibles_unis[0] if posibles_unis else uni_selec or "Otra"
-    else:
-        uni: str = uni_selec or "Otra"
+    universidades: list[str] = sorted(ponderaciones_df["universidad"].unique())
+    universidades.append("Otra")
+    uni: str = st.selectbox("Universidad", universidades, index=None)
 
     if uni != "Otra":
-        carreras: List[str] = sorted(
+        carreras: list[str] = sorted(
             ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique()
         )
-        carreras_opciones: List[str] = carreras + ["Otra"]
-        car_selec: str = st.selectbox("Carrera", carreras_opciones, index=None)
-        car_input: str = st.session_state.get("Carrera", "")
-        car_norm: str = normalizar(car_input)
-        if car_norm:
-            posibles_carreras: List[str] = [c for c in carreras if normalizar(c) == car_norm]
-            car: str = posibles_carreras[0] if posibles_carreras else car_selec or "Otra"
-        else:
-            car: str = car_selec or "Otra"
+        car: str = st.selectbox("Carrera", carreras if carreras else [], index=None)
 
-        sedes: List[str] = sorted(
+        sedes: list[str] = sorted(
             ponderaciones_df.loc[
                 (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car),
                 "sede"
             ].unique()
-        )
+        ) if uni and car else []
         sede: str = st.selectbox("Sede", sedes if sedes else [], index=None)
     else:
         car: str = st.text_input("Carrera (otra)", "")
@@ -173,22 +144,33 @@ with colC:
     cl: int = st.number_input("Competencia Lectora", min_value=100, max_value=1000, value=100)
     m1: int = st.number_input("Matemática 1 (M1)", min_value=100, max_value=1000, value=100)
     m2: int = st.number_input("Matemática 2 (M2)", min_value=0, max_value=1000, value=0)
+
     opcion_ch: str = st.radio("Prueba Electiva", ["Ciencias", "Historia"], horizontal=True)
     cs: int = st.number_input("Ciencias", min_value=0, max_value=1000, value=0)
     hs: int = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
+
+    # Puntaje de corte por carrera
+    corte_default: int = int(
+        ponderaciones_df.loc[(ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car), "Corte"].values[0]
+    ) if uni != "Otra" and car else 500
+    corte: int = st.number_input(
+        "Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default
+    )
 
 # ===== Ponderaciones =====
 with colR:
     st.subheader("Ponderaciones (%)")
     if uni != "Otra" and car:
-        fila = ponderaciones_df.loc[(ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car)]
-        p_nem_default = int(fila["NEM"].values[0])
-        p_rank_default = int(fila["Ranking"].values[0])
-        p_lec_default = int(fila["Lectora"].values[0])
-        p_m1_default = int(fila["M1"].values[0])
-        p_m2_default = int(fila["M2"].values[0])
-        p_cie_default = int(fila["Ciencias"].values[0])
-        p_his_default = int(fila["Historia"].values[0])
+        fila: pd.DataFrame = ponderaciones_df.loc[
+            (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car)
+        ]
+        p_nem_default: int = int(fila["NEM"].values[0])
+        p_rank_default: int = int(fila["Ranking"].values[0])
+        p_lec_default: int = int(fila["Lectora"].values[0])
+        p_m1_default: int = int(fila["M1"].values[0])
+        p_m2_default: int = int(fila["M2"].values[0])
+        p_cie_default: int = int(fila["Ciencias"].values[0])
+        p_his_default: int = int(fila["Historia"].values[0])
     else:
         p_nem_default = p_rank_default = p_lec_default = p_m1_default = p_m2_default = p_cie_default = p_his_default = 0
 
@@ -223,8 +205,9 @@ if st.button("PONDERAR"):
 
     progreso: float = min((ptotal / corte) * 100, 100)
     st.success(f"**{nombre or 'Postulante'}**, tu puntaje ponderado es **{ptotal:.2f}**.")
+
     if ptotal >= corte:
-        st.info(f"Estás sobre el corte por {ptotal-corte:.2f} puntos ({progreso:.1f}% del corte).")
+        st.info(f"Estás sobre el corte por {ptotal - corte:.2f} puntos ({progreso:.1f}% del corte).")
     else:
         st.warning(f"No alcanzas el corte ({corte}). Progreso: {progreso:.1f}%.")
 
