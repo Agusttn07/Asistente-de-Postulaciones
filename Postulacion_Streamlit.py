@@ -50,18 +50,7 @@ def clamp_0_1000(x: Optional[str]) -> Optional[float]:
     except:
         return None
 
-# ===== Normalizador de opciones =====
-@st.cache_data
-def normalizar_texto(texto: str) -> str:
-    return texto.lower().replace("á", "a").replace("é", "e") \
-                       .replace("í", "i").replace("ó", "o") \
-                       .replace("ú", "u").replace("ñ", "n") \
-                       .strip()
-
 # ===== Cargar carreras =====
-df_carreras = pd.DataFrame(cargar_ponderaciones())
-
-
 @st.cache_data
 def cargar_ponderaciones(force_update=False):
     data = [
