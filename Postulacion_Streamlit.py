@@ -110,6 +110,30 @@ def cargar_ponderaciones(force_update=False):
     ]
     return pd.DataFrame(data)
 
+import streamlit as st
+import pandas as pd
+
+# ===== Carga de Carreras =====
+@st.cache_data
+def cargar_ponderaciones(force_update=False):
+    data = [
+        # Universidad de Chile
+        {"universidad": "Universidad de Chile", "carrera": "Ingeniería y Ciencias (Plan Común)", "sede": "Beauchef",
+         "NEM": 0, "Ranking": 0, "Lectora": 0, "M1": 0, "M2": 0, "Ciencias": 0, "Historia": 0, "Corte": 500},
+
+        # Pontificia Universidad Católica de Chile
+        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Actuación","sede":"Casa Central",
+         "NEM":12,"Ranking":12,"Lectora":16,"M1":10,"M2":0,"Ciencias":0,"Historia":10,"Corte":792.18},
+        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Administración Pública","sede":"Santiago",
+         "NEM":20,"Ranking":20,"Lectora":20,"M1":30,"M2":0,"Ciencias":10,"Historia":10,"Corte":779.90},
+        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Agronomía","sede":"San Joaquín",
+         "NEM":20,"Ranking":30,"Lectora":10,"M1":30,"M2":0,"Ciencias":10,"Historia":0,"Corte":723.20},
+        {"universidad":"Pontificia Universidad Católica de Chile","carrera":"Antropología","sede":"San Joaquín",
+         "NEM":20,"Ranking":25,"Lectora":20,"M1":20,"M2":0,"Ciencias":0,"Historia":15,"Corte":780.55},
+        # ... agregar todas las demás carreras aquí
+    ]
+    return pd.DataFrame(data)
+
 # ===== Cargar datos =====
 df = cargar_ponderaciones()
 
@@ -128,14 +152,18 @@ df_seleccion = df[(df["universidad"] == universidad) & (df["carrera"] == carrera
 
 if not df_seleccion.empty:
     st.subheader(f"Datos de la carrera: {carrera}")
-    
-    # Mostrar todos los campos en forma de tabla
-    st.table(df_seleccion[["sede","NEM","Ranking","Lectora","M1","M2","Ciencias","Historia","Corte"]].reset_index(drop=True))
+
+    # Mostrar información general
+    st.table(df_seleccion[["sede","Corte"]].reset_index(drop=True))
+
+    # Mostrar ponderaciones (%) para cálculo
+    st.subheader("Ponderaciones (%)")
+    ponderaciones_cols = ["NEM","Ranking","Lectora","M1","M2","Ciencias","Historia"]
+    st.table(df_seleccion[ponderaciones_cols].reset_index(drop=True))
+
 else:
     st.warning("No se encontraron datos para la carrera seleccionada.")
 
-
-ponderaciones_df = cargar_ponderaciones(force_update=True)
 
 # ===== Sidebar: datos del postulante =====
 with st.sidebar:
