@@ -116,6 +116,8 @@ import unicodedata
 import unicodedata
 
 # ===== Normalizador =====
+import unicodedata
+
 def normalizar(texto):
     if not isinstance(texto, str):
         return ""
@@ -124,19 +126,19 @@ def normalizar(texto):
     texto = "".join(c for c in texto if unicodedata.category(c) != "Mn")  # quitar tildes
     return texto
 
-# Lista de universidades
-universidades = sorted(ponderaciones_df["universidad"].unique())
+# ===== Universidad y Carrera =====
+st.subheader("Universidad y Carrera")
 
-# Input universidad
+# --- Universidades ---
+universidades = sorted(ponderaciones_df["universidad"].unique())
 uni_input = st.text_input("Universidad")
-# Filtrar coincidencias parciales
 matches_uni = [u for u in universidades if normalizar(uni_input) in normalizar(u)]
 if matches_uni:
     uni = st.selectbox("Selecciona la universidad", matches_uni, index=None)
 else:
     uni = uni_input  # si no hay coincidencias, usamos lo que escribió
 
-# Lista de carreras según universidad
+# --- Carreras ---
 if uni in universidades:
     carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
     car_input = st.text_input("Carrera")
@@ -145,6 +147,8 @@ if uni in universidades:
         car = st.selectbox("Selecciona la carrera", matches_car, index=None)
     else:
         car = car_input
+else:
+    car = st.text_input("Carrera (otra)")
 
 # ===== Sedes =====
 if uni in universidades and car in carreras:
@@ -157,15 +161,12 @@ if uni in universidades and car in carreras:
     
     sede_input = st.text_input("Sede")
     matches_sede = [s for s in sedes if normalizar(sede_input) in normalizar(s)]
-    
     if matches_sede:
         sede = st.selectbox("Selecciona la sede", matches_sede, index=None)
     else:
         sede = sede_input
 else:
     sede = st.text_input("Sede (otra)")
-
-
 
 # ===== Puntajes =====
 with colC:
