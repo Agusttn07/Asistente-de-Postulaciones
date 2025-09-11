@@ -146,6 +146,26 @@ if uni in universidades:
     else:
         car = car_input
 
+# ===== Sedes =====
+if uni in universidades and car in carreras:
+    sedes = sorted(
+        ponderaciones_df.loc[
+            (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car),
+            "sede"
+        ].unique()
+    )
+    
+    sede_input = st.text_input("Sede")
+    matches_sede = [s for s in sedes if normalizar(sede_input) in normalizar(s)]
+    
+    if matches_sede:
+        sede = st.selectbox("Selecciona la sede", matches_sede, index=None)
+    else:
+        sede = sede_input
+else:
+    sede = st.text_input("Sede (otra)")
+
+
 
 # ===== Puntajes =====
 with colC:
