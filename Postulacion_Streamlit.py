@@ -121,28 +121,30 @@ def normalizar(texto):
         return ""
     texto = texto.lower().strip()
     texto = unicodedata.normalize("NFD", texto)
-    texto = "".join(c for c in texto if unicodedata.category(c) != "Mn")  # quita tildes
+    texto = "".join(c for c in texto if unicodedata.category(c) != "Mn")  # quitar tildes
     return texto
 
-# ===== Universidad y Carrera =====
-with colL:
-    st.subheader("Universidad y Carrera")
+# Lista de universidades
+universidades = sorted(ponderaciones_df["universidad"].unique())
 
-    # Universidades
-    universidades = sorted(ponderaciones_df["universidad"].unique())
-    universidades_dict = {normalizar(u): u for u in universidades}
-    uni_input = st.selectbox("Universidad", universidades + ["Otra"], index=None)
+# Input universidad
+uni_input = st.text_input("Universidad")
+# Filtrar coincidencias parciales
+matches_uni = [u for u in universidades if normalizar(uni_input) in normalizar(u)]
+if matches_uni:
+    uni = st.selectbox("Selecciona la universidad", matches_uni, index=None)
+else:
+    uni = uni_input  # si no hay coincidencias, usamos lo que escribió
 
-    if uni_input and uni_input != "Otra":
-        uni = universidades_dict.get(normalizar(uni_input), uni_input)
-
-        # Carreras
-        carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
-        carreras_dict = {normalizar(c): c for c in carreras}
-        car_input = st.selectbox("Carrera", carreras + ["Otra"], index=None)
-
-        if car_input and car_input != "Otra":
-            car = carreras_dict.get(normalizar(car_input), car_input)
+# Lista de carreras según universidad
+if uni in universidades:
+    carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
+    car_input = st.text_input("Carrera")
+    matches_car = [c for c in carreras if normalizar(car_input) in normalizar(c)]
+    if matches_car:
+        car = st.selectbox("Selecciona la carrera", matches_car, index=None)
+    else:
+        car = car_input
 
             # Sedes
             sedes = sorted(
