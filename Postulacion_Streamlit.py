@@ -10,16 +10,22 @@ st.set_page_config(page_title="Asistente de Postulaciones", page_icon="🎓", la
 with colL:
     st.subheader("Universidad y Carrera")
 
-    # Listado de universidades
+    # Universidades disponibles
     universidades = sorted(ponderaciones_df["universidad"].unique())
     universidades_opciones = universidades + ["Otra"]
 
-    # Diccionario dinámico de logos
-    # Clave: nombre de la universidad, Valor: ruta del logo
-    logos = {
-        "Pontificia Universidad Católica de Chile": "logos_universidad/u_catolica.png",
-        
-    }
+    # Carpeta de logos
+    carpeta_logos = "logos_universidad"
+
+    # Crear diccionario automático de logos
+    logos = {}
+    if os.path.exists(carpeta_logos):
+        for archivo in os.listdir(carpeta_logos):
+            if archivo.lower().endswith((".png", ".jpg", ".jpeg", ".svg")):
+                nombre_uni = os.path.splitext(archivo)[0]  # sin extensión
+                # Reemplazar guiones bajos por espacios y normalizar
+                nombre_uni = nombre_uni.replace("_", " ")
+                logos[nombre_uni] = os.path.join(carpeta_logos, archivo)
 
     # Columnas: logo a la izquierda y selectbox a la derecha
     logo_col, uni_col = st.columns([1, 4])
@@ -28,15 +34,20 @@ with colL:
         uni_selec = st.selectbox("Universidad", universidades_opciones, index=None)
 
     with logo_col:
-        if uni_selec in logos:
-            st.image(logos[uni_selec], width=50)
-        else:
-            st.write("")  # si no hay logo disponible
+        logo_mostrado = False
+        for nombre_logo, ruta_logo in logos.items():
+            if normalizar(nombre_logo) == normalizar(uni_selec):
+                st.image(ruta_logo, width=50)
+                logo_mostrado = True
+                break
+        if not logo_mostrado:
+            st.write("")  # espacio vacío si no hay logo
 
-    # Normalización y selección
+    # Normalizar lo que escribe el usuario
     uni_input = st.session_state.get("Universidad", "")
     uni_norm = normalizar(uni_input)
 
+    # Reemplazar por la coincidencia si existe
     if uni_norm:
         posibles_unis = [u for u in universidades if normalizar(u) == uni_norm]
         if posibles_unis:
@@ -46,7 +57,7 @@ with colL:
     else:
         uni = uni_selec if uni_selec else "Otra"
 
-    # Carreras asociadas a la universidad
+    # Carreras asociadas a esa universidad
     if uni != "Otra":
         carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
         carreras_opciones = carreras + ["Otra"]
