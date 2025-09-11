@@ -9,9 +9,9 @@ st.title("Asistente de postulaciones 🎓")
 
 st.markdown(
     """
-    <h1 style="color:#6E7DAB; margin-top: -20px;">
+    <h2 style="color:#6E7DAB; margin-top: -15px;">
         Admisión 2026
-    </h1>
+    </h2>
     """,
     unsafe_allow_html=True
 )
