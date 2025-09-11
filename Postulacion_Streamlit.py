@@ -129,43 +129,29 @@ logos_universidad = {
     # agrega más universidades y sus archivos
 }
 
-# ===== Selección de Universidad y Carrera con logo =====
-with colL:
-    st.subheader("Universidad y Carrera")
+# ===== Selección Universidad y Carrera con logos =====
+st.subheader("Universidad y Carrera")
 
-    universidades = sorted(ponderaciones_df["universidad"].unique())
-    universidades_opciones = universidades + ["Otra"]
+universidades = sorted(ponderaciones_df["universidad"].unique())
+uni = None
 
-    # Construir opciones con logos
-    uni_labels = []
-    for uni in universidades:
-        logo_path = logos_universidad.get(uni, None)
-        if logo_path and os.path.exists(logo_path):
-            # Usamos Markdown para mostrar imagen al lado
-            label = f'<img src="{logo_path}" width="25"> {uni}'
-        else:
-            label = uni
-        uni_labels.append(label)
-    uni_labels.append("Otra")
+for u in universidades:
+    logo_path = logos_universidad.get(u, None)
+    col1, col2 = st.columns([0.1, 0.9])
+    with col1:
+        if logo_path:
+            st.image(logo_path, width=30)
+    with col2:
+        if st.button(u, key=u):
+            uni = u
 
-    # Mostrar selectbox con Markdown
-    selected_index = st.selectbox("Universidad", range(len(uni_labels)), format_func=lambda x: uni_labels[x])
-    uni = universidades_opciones[selected_index]
-
-    # Carreras asociadas
-    if uni != "Otra":
-        carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
-        carreras_opciones = carreras + ["Otra"]
-        car = st.selectbox("Carrera", carreras_opciones)
-    else:
-        car = st.text_input("Carrera (otra)", "")
-
-    # Sedes asociadas
-    if uni != "Otra" and car != "Otra":
+# Si se seleccionó universidad, mostramos carreras
+if uni:
+    carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"]==uni, "carrera"].unique())
+    car = st.selectbox("Carrera", [""] + carreras)
+    if car:
         sedes = sorted(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "sede"].unique())
-        sede = st.selectbox("Sede", sedes if sedes else [])
-    else:
-        sede = st.text_input("Sede (otra)", "")
+        sede = st.selectbox("Sede", [""] + list(sedes))
 
 # ===== Puntaje de corte =====
 with colC:
