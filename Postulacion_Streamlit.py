@@ -175,7 +175,7 @@ colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
 # ===== Universidad y Carrera =====
 with colL:
     st.subheader("Universidad y Carrera")
-    universidades: list[str] = sorted(ponderaciones_df["universidad"].unique())
+    universidades = sorted(ponderaciones_df["universidad"].astype(str).unique().tolist())
     universidades.append("Otra")
     uni: str = st.selectbox("Universidad", universidades, index=None)
 
