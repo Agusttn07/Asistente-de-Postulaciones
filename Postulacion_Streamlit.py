@@ -128,35 +128,37 @@ def normalizar(texto):
 with colL:
     st.subheader("Universidad y Carrera")
 
-    # Universidades disponibles
+    # Universidades
     universidades = sorted(ponderaciones_df["universidad"].unique())
-    
-    # Diccionario: normalizado -> original
     universidades_dict = {normalizar(u): u for u in universidades}
-    
-    # Selectbox universidad (mostramos originales)
-    uni_input = st.selectbox("Universidad", universidades)
-    
-    # Normalizamos lo que selecciona o escribe
-    uni_norm = normalizar(uni_input)
-    uni = universidades_dict.get(uni_norm, uni_input)
+    uni_input = st.selectbox("Universidad", universidades + ["Otra"], index=None)
 
-    # Carreras según universidad elegida
-    carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
-    carreras_dict = {normalizar(c): c for c in carreras}
-    
-    car_input = st.selectbox("Carrera", carreras if carreras else [])
-    car_norm = normalizar(car_input)
-    car = carreras_dict.get(car_norm, car_input)
+    if uni_input and uni_input != "Otra":
+        uni = universidades_dict.get(normalizar(uni_input), uni_input)
 
-    # Sedes
-    sedes = sorted(
-        ponderaciones_df.loc[
-            (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car),
-            "sede"
-        ].unique()
-    )
-    sede = st.selectbox("Sede", sedes if sedes else [])
+        # Carreras
+        carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"] == uni, "carrera"].unique())
+        carreras_dict = {normalizar(c): c for c in carreras}
+        car_input = st.selectbox("Carrera", carreras + ["Otra"], index=None)
+
+        if car_input and car_input != "Otra":
+            car = carreras_dict.get(normalizar(car_input), car_input)
+
+            # Sedes
+            sedes = sorted(
+                ponderaciones_df.loc[
+                    (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car),
+                    "sede"
+                ].unique()
+            )
+            sede = st.selectbox("Sede", sedes if sedes else [], index=None)
+        else:
+            car = car_input
+            sede = st.text_input("Sede (otra)", "")
+    else:
+        uni = uni_input
+        car = st.text_input("Carrera (otra)", "")
+        sede = st.text_input("Sede (otra)", "")
 
 
 # ===== Puntajes =====
