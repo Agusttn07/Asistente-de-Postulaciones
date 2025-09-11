@@ -81,7 +81,7 @@ df_resultado_display = df_resultado[['NEM','Ranking','Lectora','M1','M2','Cienci
 
 st.markdown(f"### Resultados para {carrera_sel} - {sede_sel}")
 st.dataframe(df_resultado_display)
-)
+
 
 @st.cache_data
 def cargar_ponderaciones(force_update=False):
