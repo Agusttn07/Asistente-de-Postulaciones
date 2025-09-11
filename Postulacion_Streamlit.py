@@ -121,33 +121,29 @@ with st.sidebar:
 # ===== Título principal =====
 st.title("Asistente de postulaciones 🎓 \n Admisión 2026")
 
-# ===== Columnas principales =====
-colL, colC, colR = st.columns([1.2, 1.1, 1.2], gap="large")
-
 # ===== Logos de universidades =====
-# Coloca tus logos en una carpeta llamada "logos_universidad" en el repo
 logos_universidad = {
     "Pontificia Universidad Católica de Chile": "logos_universidad/u_catolica.png",
-    # agrega más universidades y sus archivos
+    "Universidad de Chile": "logos_universidad/u_chile.png",
+    # agrega más universidades y sus logos
 }
 
-# ===== Selección Universidad y Carrera con logos =====
+# ===== SECCIÓN UNIVERSIDAD Y CARRERA =====
 st.subheader("Universidad y Carrera")
 
-universidades = sorted(ponderaciones_df["universidad"].unique())
 uni = None
-
+universidades = sorted(ponderaciones_df["universidad"].unique())
 for u in universidades:
     logo_path = logos_universidad.get(u, None)
     col1, col2 = st.columns([0.1, 0.9])
     with col1:
-        if logo_path:
+        if logo_path and os.path.exists(logo_path):
             st.image(logo_path, width=30)
     with col2:
         if st.button(u, key=u):
             uni = u
 
-# Si se seleccionó universidad, mostramos carreras
+# Selección de carrera y sede
 if uni:
     carreras = sorted(ponderaciones_df.loc[ponderaciones_df["universidad"]==uni, "carrera"].unique())
     car = st.selectbox("Carrera", [""] + carreras)
@@ -155,8 +151,10 @@ if uni:
         sedes = sorted(ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car), "sede"].unique())
         sede = st.selectbox("Sede", [""] + list(sedes))
 
-# ===== Puntaje de corte =====
-with colC:
+# ===== COLUMNAS DE PUNTAJES Y PONDERACIONES =====
+colPAES, colPond = st.columns([1, 1])
+
+with colPAES:
     st.subheader("Puntajes PAES (100–1000)")
     nem = st.number_input("NEM", min_value=100, max_value=1000, value=100)
     ranking = st.number_input("Ranking", min_value=100, max_value=1000, value=100)
@@ -167,24 +165,18 @@ with colC:
     cs = st.number_input("Ciencias", min_value=0, max_value=1000, value=0)
     hs = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
 
-    # ✅ Verificamos si existe la fila antes de acceder a valores
-    # Puntaje de corte por carrera
-if uni and car:
-    fila_corte = ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car)]
-    if not fila_corte.empty:
-        corte_default = int(fila_corte["Corte"].values[0])
+    # Puntaje de corte seguro
+    if uni and car:
+        fila_corte = ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car)]
+        corte_default = int(fila_corte["Corte"].values[0]) if not fila_corte.empty else 500
     else:
-        corte_default = 500  # valor por defecto si no hay fila
-else:
-    corte_default = 500
-
+        corte_default = 500
 
     corte = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default)
 
-# ===== Ponderaciones =====
-with colR:
+with colPond:
     st.subheader("Ponderaciones (%)")
-    if uni != "Otra" and car:
+    if uni and car:
         fila = ponderaciones_df.loc[(ponderaciones_df["universidad"]==uni) & (ponderaciones_df["carrera"]==car)]
         p_nem_default = int(fila["NEM"].values[0])
         p_rank_default = int(fila["Ranking"].values[0])
@@ -233,9 +225,6 @@ st.info(
     "Toda la información presentada en esta plataforma ha sido recopilada y organizada a partir "
     "de los datos oficiales publicados por el Departamento de Evaluación, Medición y Registro Educacional (DEMRE) de la Universidad de Chile."
 )
-
-
-
 
 
 
