@@ -146,22 +146,6 @@ if uni in universidades:
     else:
         car = car_input
 
-            # Sedes
-            sedes = sorted(
-                ponderaciones_df.loc[
-                    (ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car),
-                    "sede"
-                ].unique()
-            )
-            sede = st.selectbox("Sede", sedes if sedes else [], index=None)
-        else:
-            car = car_input
-            sede = st.text_input("Sede (otra)", "")
-    else:
-        uni = uni_input
-        car = st.text_input("Carrera (otra)", "")
-        sede = st.text_input("Sede (otra)", "")
-
 
 # ===== Puntajes =====
 with colC:
