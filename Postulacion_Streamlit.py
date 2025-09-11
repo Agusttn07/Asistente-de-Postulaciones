@@ -177,11 +177,6 @@ with colC:
     cs: int = st.number_input("Ciencias", min_value=0, max_value=1000, value=0)
     hs: int = st.number_input("Historia y Cs. Sociales", min_value=0, max_value=1000, value=0)
 
-    corte_default: int = int(
-        ponderaciones_df.loc[(ponderaciones_df["universidad"] == uni) & (ponderaciones_df["carrera"] == car), "Corte"].values[0]
-    ) if uni != "Otra" and car else 500
-    corte: int = st.number_input("Puntaje último matriculado (100–1000)", min_value=100, max_value=1000, value=corte_default)
-
 # ===== Ponderaciones =====
 with colR:
     st.subheader("Ponderaciones (%)")
